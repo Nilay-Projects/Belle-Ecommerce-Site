@@ -33,3 +33,12 @@
 ---
 
 ## 🗂️ Project Structure
+
+BELLE/
+│
+├── belle/ # Core Django app settings
+├── store/ # Main e-commerce app (products, cart, checkout, wishlist)
+├── templates/ # HTML templates
+├── static/ # CSS, JS, Images
+├── manage.py # Django project manager
+└── requirements.txt # Python dependencies
