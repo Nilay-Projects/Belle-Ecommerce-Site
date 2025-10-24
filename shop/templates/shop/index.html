@@ -1,0 +1,505 @@
+{% extends 'shop/root.html' %}
+{% load static %}
+{% block title %}{{ product.title }}ATOM{% endblock %}
+{% block content %}
+
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Home slider-->
+    	<div class="slideshow slideshow-wrapper pb-section sliderFull">
+        	<div class="home-slideshow">
+            	<div class="slide">
+                	<div class="blur-up lazyload bg-size">
+                        <img class="blur-up lazyload bg-img" data-src="{% static 'images/slideshow-banners/belle-banner1.jpg' %}" src="{% static 'images/slideshow-banners/belle-banner1.jpg' %}" alt="Shop Our New Collection" title="Shop Our New Collection" />
+                        <div class="slideshow__text-wrap slideshow__overlay classic bottom">
+                            <div class="slideshow__text-content bottom">
+                                <div class="wrap-caption center">
+                                        <h2 class="h1 mega-title slideshow__title">Shop Our New Collection</h2>
+                                        <span class="mega-subtitle slideshow__subtitle">From Hight to low, classic or modern. We have you covered</span>
+                                        <span class="btn">
+                                            <a href="#women-featured-products" class="scroll-link" style="color: white;">Shop Now</a>
+                                        </span>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide">
+                	<div class="blur-up lazyload bg-size">
+                        <img class="blur-up lazyload bg-img" data-src="{% static 'images/slideshow-banners/home9-banner1.jpg' %}" src="{% static 'images/slideshow-banners/home9-banner1.jpg' %}" alt="Summer Bikini Collection" title="Summer Bikini Collection" />
+                        <div class="slideshow__text-wrap slideshow__overlay classic bottom">
+                            <div class="slideshow__text-content bottom">
+                                <div class="wrap-caption center">
+                                    <h2 class="h1 mega-title slideshow__title">Shop Our Best Clothes</h2>
+                                    <span class="mega-subtitle slideshow__subtitle">Save up to 50% off this weekend only</span>
+                                    <span class="btn">
+                                        <a href="#men-featured-products" class="scroll-link" style="color: white;">Shop Now</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Home slider-->
+        <!--Collection Tab slider-->
+        <div class="tab-slider-product section">
+        	<div class="container">
+            	<div class="row">
+                	<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="section-header text-center">
+                            <h2 class="h2">New Arrivals</h2>
+                            <p>Browse the huge variety of our products</p>
+                        </div>
+                        <div class="tabs-listing">
+                            <ul class="tabs clearfix">
+                                <li class="active" rel="tab1">Women</li>
+                                <li rel="tab2">Men</li>
+                            </ul>
+                            <div class="tab_container">
+
+                                <!-- Women Dresses -->
+                                <div id="tab1" class="tab_content grid-products">
+                                    <div class="productSlider">
+                                        {% if womens_products %}
+                                            {% for product in womens_products %}
+                                                <div class="col-12 item">
+                                                    <!-- Product image block -->
+                                                    <div class="product-image">
+                                                        <a href="{% url 'product_info' product.product_id %}">
+                                                            {% if product.image %}
+                                                                <img class="primary blur-up lazyload"
+                                                                    data-src="{{ product.image.url }}"
+                                                                    src="{{ product.image.url }}"
+                                                                    alt="{{ product.title }}"
+                                                                    title="{{ product.title }}" />
+                                                            {% else %}
+                                                                <img class="primary blur-up lazyload"
+                                                                    data-src="{% static 'images/product-placeholder.png' %}"
+                                                                    src="{% static 'images/product-placeholder.png' %}"
+                                                                    alt="{{ product.title }}" title="{{ product.title }}" />
+                                                            {% endif %}
+
+                                                            {% if product.hover_image %}
+                                                                <img class="hover blur-up lazyload"
+                                                                    data-src="{{ product.hover_image.url }}"
+                                                                    src="{{ product.hover_image.url }}"
+                                                                    alt="{{ product.title }}"
+                                                                    title="{{ product.title }}" />
+                                                            {% else %}
+                                                                <img class="hover blur-up lazyload"
+                                                                    data-src="{% static 'images/product-placeholder-hover.png' %}"
+                                                                    src="{% static 'images/product-placeholder-hover.png' %}"
+                                                                    alt="{{ product.title }}" title="{{ product.title }}" />
+                                                            {% endif %}
+                                                        </a>
+
+                                                        <!-- Add to cart form -->
+                                                        <form class="variants add" action="{% url 'product_info' product.product_id %}" method="post">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="quantity" value="1">
+                                                            <button class="btn btn-addto-cart" type="submit">Add To Cart</button>
+                                                        </form>
+                                                    </div>
+                                                    <!-- End product-image -->
+
+                                                    <!-- Product details -->
+                                                    <div class="product-details text-center">
+                                                        <div class="product-name">
+                                                            <a href="{% url 'product_info' product.product_id %}">{{ product.title }}</a>
+                                                        </div>
+                                                        <div class="product-price">
+                                                            <span class="price">${{ product.price }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End product-details -->
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <p>No products found in Women Dresses.</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Men Wear -->
+                                <div id="tab2" class="tab_content grid-products">
+                                    <div class="productSlider">
+                                        {% if mens_products %}
+                                            {% for product in mens_products %}
+                                                <div class="col-12 item">
+                                                    <!-- Product image block -->
+                                                    <div class="product-image">
+                                                        <a href="{% url 'product_info' product.product_id %}">
+                                                            {% if product.image %}
+                                                                <img class="primary blur-up lazyload"
+                                                                    data-src="{{ product.image.url }}"
+                                                                    src="{{ product.image.url }}"
+                                                                    alt="{{ product.title }}"
+                                                                    title="{{ product.title }}" />
+                                                            {% else %}
+                                                                <img class="primary blur-up lazyload"
+                                                                    data-src="{% static 'images/product-placeholder.png' %}"
+                                                                    src="{% static 'images/product-placeholder.png' %}"
+                                                                    alt="{{ product.title }}" title="{{ product.title }}" />
+                                                            {% endif %}
+
+                                                            {% if product.hover_image %}
+                                                                <img class="hover blur-up lazyload"
+                                                                    data-src="{{ product.hover_image.url }}"
+                                                                    src="{{ product.hover_image.url }}"
+                                                                    alt="{{ product.title }}"
+                                                                    title="{{ product.title }}" />
+                                                            {% else %}
+                                                                <img class="hover blur-up lazyload"
+                                                                    data-src="{% static 'images/product-placeholder-hover.png' %}"
+                                                                    src="{% static 'images/product-placeholder-hover.png' %}"
+                                                                    alt="{{ product.title }}" title="{{ product.title }}" />
+                                                            {% endif %}
+                                                        </a>
+
+                                                        <!-- Add to cart form -->
+                                                        <form class="variants add" action="{% url 'product_info' product.product_id %}" method="post">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="quantity" value="1">
+                                                            <button class="btn btn-addto-cart" type="submit">Add To Cart</button>
+                                                        </form>
+                                                    </div>
+                                                    <!-- End product-image -->
+
+                                                    <!-- Product details -->
+                                                    <div class="product-details text-center">
+                                                        <div class="product-name">
+                                                            <a href="{% url 'product_info' product.product_id %}">{{ product.title }}</a>
+                                                        </div>
+                                                        <div class="product-price">
+                                                            <span class="price">${{ product.price }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End product-details -->
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <p>No products found in Men Wear.</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+            	</div>    
+            </div>
+        </div>
+        <!--Collection Tab slider-->
+        
+        <!--Collection Box slider-->
+        <div class="collection-box section">
+        	<div class="container-fluid">
+				<div class="collection-grid">
+                        <div class="collection-grid-item">
+                            <a href="{% url 'women_shop' %}" class="collection-grid-item__link">
+                                <img class="blur-up lazyload" data-src="{% static 'images/newsletter-img.jpg' %}" src="{% static 'images/newsletter-img.jpg' %}" alt="Fashion" style="height: 389px;">
+                                <div class="collection-grid-item__title-wrapper">
+                                    <h3 class="collection-grid-item__title btn btn--secondary no-border">Women Collection</h3>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <div class="collection-grid-item">
+                            <a href="{% url 'cosmetic' %}" class="collection-grid-item__link">
+                                <img class="blur-up lazyload" data-src="{% static 'images/collection/cosmetic.jpg' %}" src="{% static 'images/collection/cosmetic.jpg' %}" alt="Cosmetic"/>
+                                <div class="collection-grid-item__title-wrapper">
+                                    <h3 class="collection-grid-item__title btn btn--secondary no-border">Cosmetic</h3>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="collection-grid-item blur-up lazyloaded">
+                            <a href="{% url 'bags' %}" class="collection-grid-item__link">
+                                <img data-src="{% static 'images/collection/bag.jpg' %}" src="{% static 'images/collection/bag.jpg' %}" alt="Bag" class="blur-up lazyload"/>
+                                <div class="collection-grid-item__title-wrapper">
+                                    <h3 class="collection-grid-item__title btn btn--secondary no-border">Bag</h3>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="collection-grid-item">
+                            <a href="{% url 'jewellery' %}" class="collection-grid-item__link">
+                                <img data-src="{% static 'images/collection/accessories.jpg' %}" src="{% static 'images/collection/accessories.jpg' %}" alt="Accessories" class="blur-up lazyload"/>
+                                <div class="collection-grid-item__title-wrapper">
+                                    <h3 class="collection-grid-item__title btn btn--secondary no-border">Jewellery</h3>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="collection-grid-item">
+                            <a href="{% url 'shoes' %}" class="collection-grid-item__link">
+                                <img data-src="{% static 'images/collection/shoes.jpg' %}" src="{% static 'images/collection/shoes.jpg' %}" alt="Shoes" class="blur-up lazyload"/>
+                                <div class="collection-grid-item__title-wrapper">
+                                    <h3 class="collection-grid-item__title btn btn--secondary no-border">Shoes</h3>
+                                </div>
+                            </a>
+                        </div>
+                       
+                    </div>
+            </div>
+        </div>
+        <!--End Collection Box slider-->
+        
+        <!--Logo Slider-->
+        <div class="section logo-section">
+        	<div class="container">
+            	<div class="row">
+                	<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                		<div class="logo-bar">
+                    <div class="logo-bar__item">
+                        <img src="{% static 'images/logo/brandlogo1.png' %}" alt="" title="" />
+                    </div>
+                    <div class="logo-bar__item">
+                        <img src="{% static 'images/logo/brandlogo2.png' %}" alt="" title="" />
+                    </div>
+                    <div class="logo-bar__item">
+                        <img src="{% static 'images/logo/brandlogo3.png' %}" alt="" title="" />
+                    </div>
+                    <div class="logo-bar__item">
+                        <img src="{% static 'images/logo/brandlogo4.png' %}" alt="" title="" />
+                    </div>
+                    <div class="logo-bar__item">
+                        <img src="{% static 'images/logo/brandlogo5.png' %}" alt="" title="" />
+                    </div>
+                    <div class="logo-bar__item">
+                        <img src="{% static 'images/logo/brandlogo6.png' %}" alt="" title="" />
+                    </div>
+                </div>
+                	</div>
+                </div>
+            </div>
+        </div>
+        <!--End Logo Slider-->
+
+        <!--Women Featured Product-->
+        <div class="product-rows section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-header text-center">
+                            <h2 class="h2" id="women-featured-products">Featured collection For Women</h2>
+                            <p>Our most popular products based on sales</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-products">
+                    <div class="row">
+                        {% if women_featured_products %}
+                            {% for product in women_featured_products %}
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-4 item grid-view-item style2">
+                                    <div class="grid-view_image">
+                                        <a href="{% url 'product_info' product.product_id %}" class="grid-view-item__link">
+                                            <img class="grid-view-item__image primary blur-up lazyload"
+                                                data-src="{{ product.image_url }}" src="{{ product.image_url }}"
+                                                alt="{{ product.title }}" title="{{ product.title }}">
+                                            <img class="grid-view-item__image hover blur-up lazyload"
+                                                data-src="{{ product.hover_url }}" src="{{ product.hover_url }}"
+                                                alt="{{ product.title }}" title="{{ product.title }}">
+                                            {% comment %} optional labels if you have flags on product {% endcomment %}
+                                            {% if product.is_on_sale %}
+                                                <div class="product-labels rectangular"><span class="lbl on-sale">-16%</span></div>
+                                            {% endif %}
+                                        </a>
+
+                                        <div class="product-details hoverDetails text-center mobile">
+                                            <div class="product-name">
+                                                <a href="{% url 'product_info' product.product_id %}">{{ product.title }}</a>
+                                            </div>
+                                            <div class="product-price">
+                                                {% if product.price %}
+                                                    <span class="price">${{ product.price }}</span>
+                                                {% else %}
+                                                    <span class="price">—</span>
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="button-set">
+
+                                                <form class="variants add" action="{% url 'product_info' product.product_id %}" method="post" style="display:inline-block;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="quantity" value="1">
+                                                    <button class="btn cartIcon btn-addto-cart" type="submit" tabindex="0">
+                                                        <i class="icon anm anm-bag-l"></i>
+                                                    </button>
+                                                </form>
+                                                
+                                                <!-- Wishlist (single form; anchor only used to submit POST) -->
+                                                <div class="wishlist-btn">
+                                                {% if product.product_id %}
+                                                <form action="{% url 'add_to_wishlist' 'product' product.product_id %}"
+                                                        method="post" style="display:inline-block;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="title" value="{{ product.obj.name }}">
+                                                    <input type="hidden" name="price" value="{{ product.price_str }}">
+                                                    <input type="hidden" name="image_url" value="{{ product.image_url }}">
+                                                    <input type="hidden" name="hover_url" value="{{ product.hover_url }}">
+                                                    <!-- submit via anchor so styling remains same -->
+                                                    <a href="javascript:void(0);" onclick="this.closest('form').submit(); return false;"
+                                                    title="Add to Wishlist" class="wishlist add-to-wishlist">
+                                                    <i class="icon anm anm-heart-l"></i>
+                                                    </a>
+                                                </form>
+                                                {% endif %}
+                                                </div>
+
+                                                
+                                            </div>
+                                        </div>
+
+                                        {% comment %}
+                                        <!-- Variant thumbnails (image swatches) -->
+                                        <ul class="swatches text-center">
+                                            {% if product.image_url %}
+                                                <li class="swatch medium rounded">
+                                                    <img src="{{ product.image_url }}" alt="{{ product.title }}" />
+                                                </li>
+                                            {% endif %}
+                                            {% if product.hover_url %}
+                                                <li class="swatch medium rounded">
+                                                    <img src="{{ product.hover_url }}" alt="{{ product.title }} hover" />
+                                                </li>
+                                            {% endif %}
+                                            {% for c in product.colors_list %}
+                                                <li class="swatch medium rounded"><span class="swatch-label">{{ c }}</span></li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% endcomment %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="mx-auto">No featured products found.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Featured Product-->
+
+        <!--Men Featured Product-->
+        <div class="product-rows section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-header text-center">
+                            <h2 class="h2" id="men-featured-products">Featured collection For Men</h2>
+                            <p>Our most popular products based on sales</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-products">
+                    <div class="row">
+                        {% if men_featured_products %}
+                            {% for product in men_featured_products %}
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-4 item grid-view-item style2">
+                                    <div class="grid-view_image">
+                                        <a href="{% url 'product_info' product.product_id %}" class="grid-view-item__link">
+                                            <img class="grid-view-item__image primary blur-up lazyload"
+                                                data-src="{{ product.image_url }}" src="{{ product.image_url }}"
+                                                alt="{{ product.title }}" title="{{ product.title }}">
+                                            <img class="grid-view-item__image hover blur-up lazyload"
+                                                data-src="{{ product.hover_url }}" src="{{ product.hover_url }}"
+                                                alt="{{ product.title }}" title="{{ product.title }}">
+                                            {% comment %} optional labels if you have flags on product {% endcomment %}
+                                            {% if product.is_on_sale %}
+                                                <div class="product-labels rectangular"><span class="lbl on-sale">-16%</span></div>
+                                            {% endif %}
+                                        </a>
+
+                                        <div class="product-details hoverDetails text-center mobile">
+                                            <div class="product-name">
+                                                <a href="{% url 'product_info' product.product_id %}">{{ product.title }}</a>
+                                            </div>
+                                            <div class="product-price">
+                                                {% if product.price %}
+                                                    <span class="price">${{ product.price }}</span>
+                                                {% else %}
+                                                    <span class="price">—</span>
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="button-set">
+                                                <form class="variants add" action="{% url 'product_info' product.product_id %}" method="post" style="display:inline-block;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="quantity" value="1">
+                                                    <button class="btn cartIcon btn-addto-cart" type="submit" tabindex="0">
+                                                        <i class="icon anm anm-bag-l"></i>
+                                                    </button>
+                                                </form>
+
+                                                <!-- Wishlist (single form; anchor only used to submit POST) -->
+                                                <div class="wishlist-btn">
+                                                {% if product.product_id %}
+                                                <form action="{% url 'add_to_wishlist' 'product' product.product_id %}"
+                                                        method="post" style="display:inline-block;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="title" value="{{ product.obj.name }}">
+                                                    <input type="hidden" name="price" value="{{ product.price_str }}">
+                                                    <input type="hidden" name="image_url" value="{{ product.image_url }}">
+                                                    <input type="hidden" name="hover_url" value="{{ product.hover_url }}">
+                                                    <!-- submit via anchor so styling remains same -->
+                                                    <a href="javascript:void(0);" onclick="this.closest('form').submit(); return false;"
+                                                    title="Add to Wishlist" class="wishlist add-to-wishlist">
+                                                    <i class="icon anm anm-heart-l"></i>
+                                                    </a>
+                                                </form>
+                                                {% endif %}
+                                                </div>
+                 
+                                            </div>
+                                        </div>
+                                     
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="mx-auto">No featured products found.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Featured Product-->
+
+        <!--Store Feature-->
+        <div class="store-feature section">
+        	<div class="container">
+            	<div class="row">
+                	<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    	<ul class="display-table store-info">
+                        	<li class="display-table-cell">
+                            	<i class="icon anm anm-truck-l"></i>
+                            	<h5>Free Shipping &amp; Return</h5>
+                            	<span class="sub-text">Free shipping on all US orders</span>
+                            </li>
+                          	<li class="display-table-cell">
+                            	<i class="icon anm anm-dollar-sign-r"></i>
+                                <h5>Money Guarantee</h5>
+                                <span class="sub-text">30 days money back guarantee</span>
+                          	</li>
+                          	<li class="display-table-cell">
+                            	<i class="icon anm anm-comments-l"></i>
+                                <h5>Online Support</h5>
+                                <span class="sub-text">We support online 24/7 on day</span>
+                            </li>
+                          	<li class="display-table-cell">
+                            	<i class="icon anm anm-credit-card-front-r"></i>
+                                <h5>Secure Payments</h5>
+                                <span class="sub-text">All payment are Secured and trusted.</span>
+                        	</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Store Feature-->
+    </div>
+    <!--End Body Content-->
+
+{% endblock %}

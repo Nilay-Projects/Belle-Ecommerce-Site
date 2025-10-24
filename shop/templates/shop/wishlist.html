@@ -1,0 +1,131 @@
+{% extends 'shop/root.html' %}
+{% load static %}
+{% block title %}My Wishlist{% endblock %}
+{% block content %}
+
+<style>
+/* Wishlist horizontal layout */
+.wishlist-card {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  transition: box-shadow 0.2s ease;
+}
+
+.wishlist-card:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.wishlist-card .img-wrap {
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.wishlist-card .img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.wishlist-card:hover img {
+  transform: scale(1.03);
+}
+
+.wishlist-card .info {
+  flex: 1;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wishlist-card .info h5 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.wishlist-card .info p {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.wishlist-card .actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.wishlist-card .btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .wishlist-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .wishlist-card .img-wrap {
+    width: 100%;
+    height: 200px;
+  }
+
+  .wishlist-card .info {
+    padding: 15px;
+  }
+
+  .wishlist-card .actions {
+    justify-content: center;
+  }
+}
+</style>
+
+<div id="page-content">
+  <div class="page section-header text-center">
+    <div class="page-title">
+      <div class="wrapper"><h1 class="page-width">My Wishlist</h1></div>
+    </div>
+  </div>
+
+  <div class="container">
+    {% if wishlist_items %}
+      {% for item in wishlist_items %}
+        <div class="wishlist-card">
+          <a href="{{ item.detail_url }}" class="img-wrap">
+            <img src="{{ item.image_url }}" 
+                 onmouseover="this.src='{{ item.hover_url }}'" 
+                 onmouseout="this.src='{{ item.image_url }}'" 
+                 alt="{{ item.title }}">
+          </a>
+
+          <div class="info">
+            <h5>{{ item.title }}</h5>
+            <p>${{ item.price }}</p>
+            <div class="actions">
+              <a href="{{ item.detail_url }}" class="btn btn-sm btn-primary">Add To Cart</a>
+              <form action="{% url 'remove_from_wishlist' item.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <b><p class="text-center text-muted w-100 mt-5">No items in your wishlist yet.</p></b>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

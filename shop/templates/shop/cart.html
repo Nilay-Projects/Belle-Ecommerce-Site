@@ -1,0 +1,489 @@
+{% extends 'shop/root.html' %}
+{% load static %}
+{% block title %}{{ product.title }}ATOM{% endblock %}
+{% block content %}
+
+{% load cart_extras %}
+
+<!--Body Content-->
+<div id="page-content">
+    <!--Page Title-->
+    <div class="page section-header text-center">
+        <div class="page-title">
+            <div class="wrapper"><h1 class="page-width">Your cart</h1></div>
+        </div>
+    </div>
+    <!--End Page Title-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8 main-col">
+               <form id="cart-form" action="{% url 'update_cart' %}" method="post" class="cart style2">
+                {% csrf_token %}
+                <table>
+                  <thead class="cart__row cart__header">
+                    <tr>
+                      <th colspan="2" class="text-center">Product</th>
+                      <th class="text-center">Size</th> 
+                      <th class="text-center">Price</th>
+                      <th class="text-center">Quantity</th>
+                      <th class="text-right">Total</th>
+                      <th class="action">&nbsp;</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% if cart %}
+                      {% for key, item in cart.items %}
+                      <tr class="cart__row border-bottom line1 cart-flex border-top" data-product-id="{{ key }}">
+                      
+                        <td class="cart__image-wrapper cart-flex-item">
+                            {% if item.category == 'product' %}
+                                <a href="{% url 'product_info' item.item_id %}">
+                                    <img class="cart__image" src="{{ item.image }}" alt="{{ item.name }}">
+                                </a>
+                            {% elif item.category == 'cosmetic' %}
+                                <a href="{% url 'cosmetic_info' item.item_id %}">
+                                    <img class="cart__image" src="{{ item.image }}" alt="{{ item.name }}">
+                                </a>
+                            {% elif item.category == 'jewellery' %}
+                                <a href="{% url 'jewellery_info' item.item_id %}">
+                                    <img class="cart__image" src="{{ item.image }}" alt="{{ item.name }}">
+                                </a>
+                            {% elif item.category == 'bag' %}
+                                <a href="{% url 'bags_info' item.item_id %}">
+                                    <img class="cart__image" src="{{ item.image }}" alt="{{ item.name }}">
+                                </a>
+                            {% elif item.category == 'shoes' %}
+                                <a href="{% url 'shoes_info' item.item_id %}">
+                                    <img class="cart__image" src="{{ item.image }}" alt="{{ item.name }}">
+                                </a>
+                            {% else %}
+                                <a href="#"><img class="cart__image" src="{{ item.image }}" alt="{{ item.name }}"></a>
+                            {% endif %}
+                        </td>
+
+                        <td class="cart__meta small--text-left cart-flex-item">
+                            <div class="list-view-item__title">
+                                {% if item.category == 'product' %}
+                                    <a href="{% url 'product_info' item.item_id %}">{{ item.name }}</a>
+                                {% elif item.category == 'cosmetic' %}
+                                    <a href="{% url 'cosmetic_info' item.item_id %}">{{ item.name }}</a>
+                                {% elif item.category == 'jewellery' %}
+                                    <a href="{% url 'jewellery_info' item.item_id %}">{{ item.name }}</a>
+                                {% elif item.category == 'bag' %}
+                                    <a href="{% url 'bags_info' item.item_id %}">{{ item.name }}</a>
+                                {% elif item.category == 'shoes' %}
+                                    <a href="{% url 'shoes_info' item.item_id %}">{{ item.name }}</a>
+                                {% else %}
+                                    {{ item.name }}
+                                {% endif %}
+                            </div>
+                        </td>
+
+
+                         <!-- ✅ New Size column -->
+                        <td class="cart__size text-center cart-flex-item">
+                         {{ item.size }}
+                        </td>
+
+                        <td class="cart__price-wrapper cart-flex-item">
+                          {# store numeric price in data-price for JS, show formatted price #}
+                          <span class="money row-price" data-price="{{ item.price }}">{{ item.price }}</span>
+                        </td>
+
+                        <td class="cart__update-wrapper cart-flex-item text-right">
+                          <div class="cart__qty text-center">
+                            <div
+                              class="qtyField"
+                              style="
+                                display: inline-flex;
+                                align-items: center;
+                                justify-content: center;
+                                border: 1px solid #e5e5e5;
+                                border-radius: 4px;
+                                overflow: hidden;
+                                height: 36px;
+                              "
+                            >
+                              <button
+                                type="button"
+                                class="qtyBtn minus"
+                                data-pid="{{ key }}"
+                                style="
+                                  width: 36px;
+                                  height: 36px;
+                                  border: none;
+                                  background-color: #f7f7f7;
+                                  cursor: pointer;
+                                  font-size: 18px;
+                                  display: flex;
+                                  align-items: center;
+                                  justify-content: center;
+                                  color: #333;
+                                "
+                              >
+                                −
+                              </button>
+
+                              <input
+                                class="cart__qty-input"
+                                type="text"
+                                name="quantity-{{ key }}"
+                                id="qty-{{ key }}"
+                                value="{{ item.quantity }}"
+                                pattern="[0-9]*"
+                                data-pid="{{ key }}"
+                                style="
+                                  width: 48px;
+                                  height: 36px;
+                                  text-align: center;
+                                  border: none;
+                                  border-left: 1px solid #e5e5e5;
+                                  border-right: 1px solid #e5e5e5;
+                                  font-size: 16px;
+                                  color: #333;
+                                "
+                              >
+
+                              <button
+                                type="button"
+                                class="qtyBtn plus"
+                                data-pid="{{ key }}"
+                                style="
+                                  width: 36px;
+                                  height: 36px;
+                                  border: none;
+                                  background-color: #f7f7f7;
+                                  cursor: pointer;
+                                  font-size: 18px;
+                                  display: flex;
+                                  align-items: center;
+                                  justify-content: center;
+                                  color: #333;
+                                "
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td class="text-right small--hide cart-price">
+                          <div><span class="money row-total" id="row-total-{{ key }}">{{ item.quantity|multiply:item.price }}</span></div>
+                        </td>
+                      
+                        <td class="text-center small--hide">
+                        <a href="{% url 'remove_from_cart' key %}" class="btn btn--secondary cart__remove" title="Remove item">
+                          <i class="icon icon anm anm-times-l"></i>
+                        </a>
+                       </td>
+
+                      </tr>
+                      {% endfor %}
+                    {% else %}
+                    <tr>
+                    <td colspan="6" class="text-center">Your cart is empty.</td>
+                    </tr>
+                    {% endif %}
+                  </tbody>
+
+                  {% if cart %}
+                  <tfoot>
+                    <tr>
+                      <td colspan="3" class="text-left">
+                        <a href="{% url 'index' %}" class="btn--link cart-continue"><i class="icon icon-arrow-circle-left"></i> Continue shopping</a>
+                      </td>
+                      
+                    </tr>
+                  </tfoot>
+                  {% endif %}
+                </table>
+
+                <div class="currencymsg">We process all orders in USD. While the content of your cart is currently displayed in USD, the checkout will use USD at the most current exchange rate.</div>
+                <hr>
+              </form>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer">
+                <div class="cart-note">
+                    <div class="solid-border">
+                        <h5><label for="CartSpecialInstructions" class="cart-note__label small--text-center">Add a note to your order</label></h5>
+                        <textarea name="note" id="CartSpecialInstructions" class="cart-note__input"></textarea>
+                    </div>
+                </div>
+
+                {% if cart %}
+                <div class="solid-border">
+                  
+                    <div class="row">
+                    <span class="col-12 col-sm-6 cart__subtotal-title"><strong>Subtotal</strong></span>
+                      <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right">
+                        <span class="money" id="cart-subtotal">${{ total_price }}</span>
+                      </span>
+                    </div>
+                    <div class="cart__shipping">Shipping &amp; taxes calculated at checkout</div>
+                    <p class="cart_tearm">
+                        <label>
+                            <input type="checkbox" name="tearm" id="cartTearm" class="checkbox" value="tearm" required="">
+                            I agree with the terms and conditions
+                        </label>
+                    </p>
+                    <a href="{% url 'checkout' %}" class="btn btn--small-wide checkout">Checkout</a>
+                    <div class="paymnet-img"><img src="{% static 'images/payment-img.jpg' %}" alt="Payment"></div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(){
+  // initialization guard
+  if (window.__cart_handlers_initialized) return;
+  window.__cart_handlers_initialized = true;
+
+  const CLICK_GUARD_MS = 120;
+  const lastClick = {}; // timestamp guard per pid
+
+  // tiny helpers
+  function toFloat(v){ return parseFloat(String(v).replace(/[^0-9.\-]/g,'')) || 0; }
+  function formatMoney(n){ return (Math.round((n + Number.EPSILON) * 100) / 100).toFixed(2); }
+  function getCookie(name) {
+    const match = document.cookie.split('; ').find(c => c.trim().startsWith(name + '='));
+    return match ? decodeURIComponent(match.split('=')[1]) : null;
+  }
+
+  // recalc functions
+  function recalcRow(pid){
+    const row = document.querySelector('tr[data-product-id="'+pid+'"]');
+    if(!row) return;
+    const priceEl = row.querySelector('.row-price');
+    const qtyEl = row.querySelector('#qty-' + pid);
+    const totalEl = row.querySelector('#row-total-' + pid);
+    if(!priceEl || !qtyEl || !totalEl) return;
+
+    const price = toFloat(priceEl.getAttribute('data-price'));
+    const qty = Math.max(0, parseInt(qtyEl.value) || 0);
+    totalEl.textContent = formatMoney(price * qty);
+    recalcSubtotal();
+  }
+
+  function recalcSubtotal(){
+    let sum = 0;
+    document.querySelectorAll('[id^="row-total-"], .row-total').forEach(function(el){
+      sum += toFloat(el.textContent || el.innerText);
+    });
+    const subtotalEl = document.getElementById('cart-subtotal');
+    if(subtotalEl) subtotalEl.textContent = '$' + formatMoney(sum);
+  }
+
+  function setCartCount(n){
+    const cc = document.getElementById('CartCount');
+    if(cc) cc.textContent = n;
+  }
+
+  // AJAX helpers
+  function ajaxDeltaUpdate(pid, op){
+    const csrftoken = getCookie('csrftoken');
+    const payload = {};
+    payload[pid] = { op: op };
+    return fetch("{% url 'update_cart' %}", {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify(payload)
+    }).then(r => {
+      if (!r.ok) throw new Error('Network response not ok');
+      return r.json();
+    });
+  }
+
+  function ajaxRemove(href){
+    const csrftoken = getCookie('csrftoken');
+    return fetch(href, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify({})
+    }).then(r => {
+      if (!r.ok) throw new Error('Network response not ok');
+      return r.json();
+    });
+  }
+
+  // plus/minus delegated handler
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.qtyBtn');
+    if (!btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const pid = btn.getAttribute('data-pid');
+    if (!pid) return;
+
+    const now = Date.now();
+    if (lastClick[pid] && (now - lastClick[pid]) < CLICK_GUARD_MS) return;
+    lastClick[pid] = now;
+
+    const input = document.getElementById('qty-' + pid);
+    if (!input) return;
+    let cur = parseInt(input.value) || 0;
+
+    const isPlus = btn.classList.contains('plus');
+    const isMinus = btn.classList.contains('minus');
+
+    if (isPlus) cur = cur + 1;
+    else if (isMinus) cur = Math.max(0, cur - 1);
+    else return;
+
+    // optimistic update of UI
+    input.value = cur;
+    recalcRow(pid);
+
+    // If quantity dropped to zero, remove row optimistically and tell server (dec)
+    if (cur === 0 && isMinus) {
+      // remove row from DOM immediately
+      const row = document.querySelector('tr[data-product-id="'+pid+'"]');
+      if (row) row.parentNode.removeChild(row);
+
+      // call server delta (dec) which should remove item from session and return totals
+      ajaxDeltaUpdate(pid, 'dec')
+        .then(function(data){
+          if (data.cart_count !== undefined) setCartCount(data.cart_count);
+          if (data.total_price !== undefined){
+            const subtotalEl = document.getElementById('cart-subtotal');
+            if (subtotalEl) subtotalEl.textContent = '$' + data.total_price;
+            else recalcSubtotal();
+          } else recalcSubtotal();
+
+          // if no rows left, show "Your cart is empty."
+          const tbody = document.querySelector('#cart-form table tbody');
+          if (tbody){
+            const itemRows = tbody.querySelectorAll('tr[data-product-id]');
+            if (itemRows.length === 0){
+              const emptyRow = document.createElement('tr');
+              emptyRow.innerHTML = '<td colspan="6" class="text-center">Your cart is empty.</td>';
+              tbody.appendChild(emptyRow);
+            }
+          }
+        })
+        .catch(function(err){
+          console.error('ajaxDeltaUpdate(dec) failed', err);
+          // fallback: full page reload to ensure server-state correct
+          window.location.reload();
+        });
+      return;
+    }
+
+    // Otherwise just send delta (inc or dec) to server and update header/subtotal
+    ajaxDeltaUpdate(pid, isPlus ? 'inc' : 'dec')
+      .then(function(data){
+        if (data.cart_count !== undefined) setCartCount(data.cart_count);
+        if (data.total_price !== undefined){
+          const subtotalEl = document.getElementById('cart-subtotal');
+          if (subtotalEl) subtotalEl.textContent = '$' + data.total_price;
+          else recalcSubtotal();
+        } else recalcSubtotal();
+      })
+      .catch(function(err){
+        console.error('ajaxDeltaUpdate failed', err);
+        // fallback: page reload to sync
+        window.location.reload();
+      });
+  });
+
+  // input typing handler (debounced) — only updates UI; server sync occurs on form submit
+  let typingTimer = null;
+  document.addEventListener('input', function(e){
+    if (!e.target.matches('.cart__qty-input')) return;
+    const pid = e.target.getAttribute('data-pid');
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(function(){ recalcRow(pid); }, 200);
+  });
+
+  // remove link handler (delegated)
+  document.addEventListener('click', function(e){
+    const rem = e.target.closest('.cart__remove');
+    if (!rem) return;
+
+    const href = rem.getAttribute('href');
+    if (!href) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    // find pid from href or row
+    let pid = null;
+    try {
+      const m = href.match(/\/(\d+)\/?$/);
+      if (m) pid = m[1];
+    } catch(err){}
+    if (!pid){
+      const row = rem.closest('tr[data-product-id]');
+      if (row) pid = row.getAttribute('data-product-id');
+    }
+    if (!pid) { window.location = href; return; }
+
+    // optimistic remove
+    const row = document.querySelector('tr[data-product-id="'+pid+'"]');
+    if (row) row.parentNode.removeChild(row);
+
+    ajaxRemove(href)
+      .then(function(data){
+        if (data.cart_count !== undefined) setCartCount(data.cart_count);
+        if (data.total_price !== undefined){
+          const subtotalEl = document.getElementById('cart-subtotal');
+          if (subtotalEl) subtotalEl.textContent = '$' + data.total_price;
+          else recalcSubtotal();
+        } else recalcSubtotal();
+
+        // show empty message if needed
+        const tbody = document.querySelector('#cart-form table tbody');
+        if (tbody){
+          const itemRows = tbody.querySelectorAll('tr[data-product-id]');
+          if (itemRows.length === 0){
+            const emptyRow = document.createElement('tr');
+            emptyRow.innerHTML = '<td colspan="6" class="text-center">Your cart is empty.</td>';
+            tbody.appendChild(emptyRow);
+          }
+        }
+      })
+      .catch(function(err){
+        console.error('ajaxRemove failed', err);
+        window.location = href; // fallback
+      });
+  });
+
+  // init on DOM ready
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('.cart__qty-input').forEach(function(input){
+      const pid = input.getAttribute('data-pid');
+      if (pid) recalcRow(pid);
+    });
+  });
+
+})();
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

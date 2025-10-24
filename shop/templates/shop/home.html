@@ -1,0 +1,27 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}Home - T-Shirt Store{% endblock %}
+{% block content %}
+  <h1>Featured T-Shirts</h1>
+
+  <div class="row mb-4">
+    {% for product in products %}
+      <div class="col-md-3 mb-3">
+        <div class="card h-100">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+          {% else %}
+            <img src="https://via.placeholder.com/300x300?text=No+Image" class="card-img-top" alt="placeholder">
+          {% endif %}
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">${{ product.price }}</p>
+            <a href="{{ product.get_absolute_url }}" class="btn btn-primary mt-auto">View</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No products yet. Add some in admin.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

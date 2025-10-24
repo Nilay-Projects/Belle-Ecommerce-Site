@@ -1,0 +1,8 @@
+{% extends 'shop/base.html' %}
+{% block title %}Order placed - T-Shirt Store{% endblock %}
+{% block content %}
+  <h1>Thanks, {{ order.full_name }}!</h1>
+  <p>Your order #{{ order.id }} has been placed.</p>
+  <p>We will email order details to {{ order.email }}.</p>
+  <a href="{% url 'home' %}" class="btn btn-primary">Continue shopping</a>
+{% endblock %}

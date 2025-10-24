@@ -1,0 +1,70 @@
+{% extends 'shop/root.html' %}
+{% load static %}
+{% block title %}Your Orders{% endblock %}
+{% block content %}
+
+<div id="page-content">
+  <div class="page section-header text-center">
+    <div class="page-title">
+      <div class="wrapper"><h1 class="page-width">Your Orders</h1></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        {% if orders %}
+          {% for order in orders %}
+            <div class="your-order-payment mb-5">
+              <div class="your-order text-center">
+                <h2 class="order-title mb-3">Order  {{ forloop.counter }}</h2>
+                <p class="mb-3 text-muted">Placed on {{ order.created_at|date:"M d, Y H:i" }}</p>
+
+                <div class="table-responsive-sm order-table">
+                  <table class="bg-white table table-bordered table-hover text-center mx-auto" style="max-width: 100%;">
+                    
+                    <thead style="background-color: #f8f9fa; color: black;">
+                      <tr>
+                        <th class="text-left">Product Name</th>
+                        <th>Price</th>
+                        <th>Size</th>
+                        <th>Qty</th>
+                        <th>Subtotal</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {% for item in order.order_items %}
+                      <tr>
+                        <td class="text-left">{{ item.name }}</td>
+                        <td>${{ item.price }}</td>
+                        <td>{% if item.size %}{{ item.size }}{% else %}-{% endif %}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.subtotal }}</td>
+                      </tr>
+                      {% empty %}
+                      <tr><td colspan="5" class="text-muted">No items in this order.</td></tr>
+                      {% endfor %}
+                    </tbody>
+
+                    <tfoot class="font-weight-600">
+                      <tr>
+                        <td colspan="4" class="text-right">Total</td>
+                        <td>${{ order.total_price }}</td>
+                      </tr>
+                    </tfoot>
+
+                  </table>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-center text-muted mt-4">You have not placed any orders yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends 'shop/root.html' %}
+{% load static %}
+{% block title %}{{ jewellery.name }} | ATOM{% endblock %}
+{% block content %}
+{% load dict_extras %}
+
+<style>
+  .swatch-element { display:inline-block; margin-right:6px; }
+  .swatchLbl { display:inline-block; padding:8px 12px; border:1px solid #ddd; border-radius:6px; cursor:pointer; }
+  .swatch-element.selected .swatchLbl { border-color:#111; font-weight:600; box-shadow:0 1px 4px rgba(0,0,0,0.08); }
+</style>
+
+<div id="page-content">
+  <div id="MainContent" class="main-content" role="main">
+
+    <!-- Breadcrumb -->
+    <div class="bredcrumbWrap" style="margin-top: 10px;">
+      <div class="container breadcrumbs">
+        <a href="{% url 'index' %}" title="Back to the home page">Home</a>
+        <span aria-hidden="true">›</span>
+        <span>{{ jewellery.name }}</span>
+      </div>
+    </div>
+
+    <div id="ProductSection-jewellery-template" class="product-template__container prstyle1 container">
+
+      <div class="product-single">
+        <div class="row">
+
+          <!-- Left: Images -->
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="product-details-img">
+              <div class="product-thumb">
+                <div id="gallery" class="product-dec-slider-2 product-tab-left">
+                  {% for img in gallery_images %}
+                    <a data-image="{{ img }}" data-zoom-image="{{ img }}">
+                      <img class="blur-up lazyload" src="{{ img }}" alt="{{ jewellery.name }}">
+                    </a>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="zoompro-wrap product-zoom-right pl-20">
+                <div class="zoompro-span">
+                  <img class="zoompro blur-up lazyload"
+                       data-zoom-image="{{ image_url }}"
+                       alt="{{ jewellery.name }}"
+                       src="{{ image_url }}" />
+                </div>
+
+                <div class="product-buttons">
+                  {% if hover_url %}
+                    <a href="{{ hover_url }}" class="btn prlightbox" title="Zoom hover">
+                        <i class="icon anm anm-expand-l-arrows" aria-hidden="true"></i>
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="lightboximages">
+                {% for img in gallery_images %}
+                  <a href="{{ img }}" data-size="1200x1600"></a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <!-- End Images -->
+
+          <!-- Right: Details -->
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="product-single__meta">
+              <h1 class="product-single__title">{{ jewellery.name }}</h1>
+
+              <div class="prInfoRow">
+                
+
+              <p class="product-single__price">
+                <span class="product-price__price">
+                  <span class="money" id="product-price">${{ price|floatformat:2 }}</span>
+                </span>
+              </p>
+
+              <div class="orderMsg" data-user="23" data-time="24">
+                <img src="{% static 'images/order-icon.jpg' %}" alt="" /> <strong class="items">5</strong> sold in last <strong class="time">26</strong> hours
+              </div>
+            </div>
+
+            <div class="product-single__description rte">
+              {% if short_desc %}
+                <p>{{ short_desc }}</p>
+              {% else %}
+                <p>No description available.</p>
+              {% endif %}
+            </div>
+
+            <div id="quantity_message">Hurry! Only <span class="items">4</span> left in stock.</div>
+
+            {# Add to cart form for jewellery - adjust URL name as needed #}
+            <form id="add-to-cart-jewellery" method="post" action="{% url 'add_to_cart' 'jewellery' jewellery.jewellery_product_id %}">
+              {% csrf_token %}
+              <div class="product-form__item--submit">
+                <button type="submit" class="btn custom-cart-button">
+                  <span>Add to cart</span>
+                </button>
+              </div>
+            </form>
+
+            <div class="display-table shareRow" style="margin-top:12px;">
+           
+
+              <div class="display-table-cell text-right">
+                <div class="social-sharing">
+                  <a target="_blank" href="#" class="btn btn--small btn--secondary btn--share share-facebook" title="Share on Facebook">
+                    <i class="fa fa-facebook-square" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">Share</span>
+                  </a>
+                  <a target="_blank" href="#" class="btn btn--small btn--secondary btn--share share-twitter" title="Tweet on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">Tweet</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- End Details -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,295 @@
+{% extends 'shop/root.html' %}
+{% load static %}
+{% block title %}{{ product.title }}ATOM{% endblock %}
+{% block content %}
+
+    <!--Body Content-->
+    <div id="page-content">
+    
+    	<!--Home slider-->
+    	<div class="slideshow slideshow-wrapper pb-section">
+        	<div class="home-slideshow">
+            	<div class="slide">
+                	<div class="blur-up lazyload">
+                        <img class="blur-up lazyload" data-src="{% static 'images/slideshow-banners/home8-jewelry-banner1.jpg' %}" src="{% static 'images/slideshow-banners/home8-jewelry-banner1.jpg' %}" alt="Wedding bands" title="Wedding bands" />
+                        <div class="slideshow__text-wrap slideshow__overlay classic middle">
+                            <div class="slideshow__text-content middle">
+                            	<div class="container">
+                                    <div class="wrap-caption right">
+                                        <h2 class="h1 mega-title slideshow__title" style="color:black;">Wedding bands</h2>
+                                        <span class="mega-subtitle slideshow__subtitle" style="color:black;">Wedding bands will be one of the most tangible elements of your wedding<br> day, and a lasting symbol of your love.</span>
+                                        <span class="btn">Shop now</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide">
+                	<div class="blur-up lazyload">
+                        <img class="blur-up lazyload" data-src="{% static 'images/slideshow-banners/home8-jewelry-banner2.jpg' %}" src="{% static 'images/slideshow-banners/home8-jewelry-banner2.jpg' %}" alt="Shop New Collection" title="Shop New Collection" />
+                        <div class="slideshow__text-wrap slideshow__overlay classic middle">
+                            <div class="slideshow__text-content middle">
+                            	<div class="container">
+                                    <div class="wrap-caption left">
+                                        <h2 class="h1 mega-title slideshow__title" style="color:black; font-size: 50px;">Shop New Collection</h2>
+                                        <span class="mega-subtitle slideshow__subtitle" style="color:black;">From Hight to low, classic or modern. We have you<br>covered</span>
+                                        <span class="btn">Shop now</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Home slider-->
+        
+        <!--Small Banners-->
+        <div class="section imgBanners">
+            <div class="container">
+            	<div class="imgBnrOuter">
+                	<div class="row">
+                    	<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="section-header text-center">
+                                <h2 class="h2 heading-font">New Collections</h2>
+                                <p>Modern and classic designs to suit every style.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for item in most_selling %}
+                            {% if forloop.counter == 1 %}
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 pl-0">
+                                <div class="inner btmleft">
+                                <a href="{{ item.detail_url }}">
+                                    <img 
+                                    data-src="{{ item.image_url }}" 
+                                    src="{{ item.image_url }}" 
+                                    alt="{{ item.obj.name }}" 
+                                    class="blur-up lazyload"/>
+                                    <span class="ttl">{{ item.obj.name }}</span>
+                                </a>
+                                </div>    	
+                            </div>
+                            {% elif forloop.counter == 2 %}
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 pr-0">
+                                <div class="inner center">
+                                <a href="{{ item.detail_url }}">
+                                    <img 
+                                    data-src="{{ item.image_url }}" 
+                                    src="{{ item.image_url }}" 
+                                    alt="{{ item.obj.name }}" 
+                                    class="blur-up lazyload"/>
+                                    <span class="ttl">{{ item.obj.name }}</span>
+                                </a>
+                                </div>  
+                            {% elif forloop.counter == 3 %}
+                                <div class="inner btmright mt-4">
+                                <a href="{{ item.detail_url }}">
+                                    <img 
+                                    data-src="{{ item.image_url }}" 
+                                    src="{{ item.image_url }}" 
+                                    alt="{{ item.obj.name }}" 
+                                    class="blur-up lazyload"/>
+                                    <span class="ttl">{{ item.obj.name }}</span>
+                                </a>
+                                </div>  
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--End Small Banners-->
+        
+        <!--Hot picks-->
+        <div class="section">
+        	<div class="container">
+            	<div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="section-header text-center">
+                            <h2 class="h2 heading-font">Hot picks</h2>
+                            <p>Jewellery is the next best thing to Love!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="productSlider-style2 grid-products">
+                    {% for item in trending  %}
+                    <div class="col-12 item">
+                        <!-- start product image -->
+                        <div class="product-image">
+                            <a href="{{ item.detail_url }}" class="grid-view-item__link">
+                                <!-- primary image -->
+                                <img class="primary blur-up lazyload" 
+                                    data-src="{{ item.image_url }}" 
+                                    src="{{ item.image_url }}" 
+                                    alt="{{ item.obj.name }}" 
+                                    title="{{ item.obj.name }}">
+                                <!-- hover image -->
+                                <img class="hover blur-up lazyload" 
+                                    data-src="{{ item.hover_url }}" 
+                                    src="{{ item.hover_url }}" 
+                                    alt="{{ item.obj.name }}" 
+                                    title="{{ item.obj.name }}">
+                            </a>
+
+                            <form class="variants add" action="{{ item.detail_url }}" method="get">
+                                <button class="btn btn-addto-cart" type="submit">View Details</button>
+                            </form>
+
+                            <div class="button-set">
+                                
+                                <!-- Wishlist (single form; anchor only used to submit POST) -->
+                                <div class="wishlist-btn">
+                                {% if item.obj.jewellery_product_id %}
+                                <form action="{% url 'add_to_wishlist' 'jewellery' item.obj.jewellery_product_id %}"
+                                        method="post" style="display:inline-block;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="title" value="{{ item.obj.name }}">
+                                    <input type="hidden" name="price" value="{{ item.price_str }}">
+                                    <input type="hidden" name="image_url" value="{{ item.image_url }}">
+                                    <input type="hidden" name="hover_url" value="{{ item.hover_url }}">
+                                    <!-- submit via anchor so styling remains same -->
+                                    <a href="javascript:void(0);" onclick="this.closest('form').submit(); return false;"
+                                    title="Add to Wishlist" class="wishlist add-to-wishlist">
+                                    <i class="icon anm anm-heart-l"></i>
+                                    </a>
+                                </form>
+                                {% endif %}
+                                </div>
+                            
+                            </div>
+                        </div>
+                        <!-- end product image -->
+
+                        <!-- product details -->
+                        <div class="product-details text-center">
+                            <div class="product-name">
+                                <a href="{{ item.detail_url }}">{{ item.obj.name }}</a>
+                            </div>
+                            <div class="product-price">
+                                {% if item.obj.old_price %}
+                                    <span class="old-price">${{ item.obj.old_price }}</span>
+                                {% endif %}
+                                <span class="price">${{ item.price_str }}</span>
+                            </div>
+                        </div>
+                        <!-- end product details -->
+                    </div>
+                    {% endfor %}
+                </div>
+                
+            </div>
+       </div>
+       <!--End Hot picks-->
+       
+       	<div class="section collection-box-style1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="section-header text-center">
+                            <h2 class="h2">Trendy necklace</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                        <div class="collection-grid-item">
+                            <a href="collection-page.html" class="collection-grid-item__link">
+                                <img data-src="{% static 'images/collection/jewellery-collection4.jpg' %}" src="{% static 'images/collection/jewellery-collection4.jpg' %}" alt="Hot" class="blur-up lazyload"/>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                        <div class="collection-grid-item">
+                            <a href="collection-page.html" class="collection-grid-item__link">
+                                <img data-src="{% static 'images/collection/jewellery-collection5.jpg' %}" src="{% static 'images/collection/jewellery-collection5.jpg' %}" alt="Denim" class="blur-up lazyload"/>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                        <div class="collection-grid-item">
+                            <a href="collection-page.html" class="collection-grid-item__link">
+                                <img data-src="{% static 'images/collection/jewellery-collection6.jpg' %}" src="{% static 'images/collection/jewellery-collection6.jpg' %}" alt="Summer" class="blur-up lazyload"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       	</div>
+        
+        <!--Store Feature-->
+        <div class="store-feature section">
+        	<div class="container">
+            	<div class="row">
+                	<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    	<ul class="display-table store-info">
+                        	<li class="display-table-cell">
+                            	<i class="icon anm anm-truck-l"></i>
+                            	<h5>Free Shipping Worldwide</h5>
+                            	<span class="sub-text">
+                            		Diam augue augue in fusce voluptatem
+                            	</span>
+                            </li>
+                          	<li class="display-table-cell">
+                            	<i class="icon anm anm-money-bill-ar"></i>
+                                <h5>Money Back Guarantee</h5>
+                                <span class="sub-text">
+                                	Use this text to display your store information
+                                </span>
+                          	</li>
+                          	<li class="display-table-cell">
+                            	<i class="icon anm anm-comments-l"></i>
+                                <h5>24/7 Help Center</h5>
+                                <span class="sub-text">
+                                	Use this text to display your store information
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Store Feature-->
+        
+        <!--Hero Banner With Text-->
+        <div class="section hero hero--medium hero__overlay bg-size">
+        	<img class="bg-img" src="{% static 'images/parallax-banners/jewellery-parallax.jpg' %}" alt="" />
+        	<div class="hero__inner">
+            	<div class="container">
+                	<div class="wrap-text right text-medium font-bold">
+                    	<h2 class="h2 mega-title">MAKE IT PERSONAL</h2>
+                        <div class="rte-setting mega-subtitle">Make your jewels even more meaningful by <br> personalizing them with a name, monogram, coordinates, date,<br>  or a special message.</div>
+                        <a href="#" class="btn">personalize Now</a>
+                    </div>
+                </div>
+        	</div>
+        </div>
+        <!--End Hero Banner With Text-->
+        
+        <!-- Instagram Section-->
+        <div class="section instagram-feed-section">
+        	<div class="container">
+                <div class="section-header text-center">
+                    <h2 class="h2 heading-font">Belle On Instagram</h2>
+                    <p>Phasellus lorem malesuada ligula pulvinar commodo maecenas suscipit auctom.</p>
+                </div>
+                <!--Instagram ID-->
+                <div id="instafeed" class="imlow_resolution"></div>
+                <!--End Instagram ID-->
+            </div>
+        </div>
+        <!--End Instagram Section-->
+        
+    </div>
+    <!--End Body Content-->
+   
+
+{% endblock %} 

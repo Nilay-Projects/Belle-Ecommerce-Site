@@ -1,0 +1,25 @@
+{% extends 'shop/base.html' %}
+{% block title %}{{ category.name }} - T-Shirt Store{% endblock %}
+{% block content %}
+  <h1>Category: {{ category.name }}</h1>
+  <div class="row">
+    {% for product in products %}
+      <div class="col-md-3 mb-3">
+        <div class="card">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+          {% else %}
+            <img src="https://via.placeholder.com/300x300?text=No+Image" class="card-img-top" alt="placeholder">
+          {% endif %}
+          <div class="card-body">
+            <h5>{{ product.title }}</h5>
+            <p>${{ product.price }}</p>
+            <a href="{{ product.get_absolute_url }}" class="btn btn-sm btn-primary">View</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No products in this category yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

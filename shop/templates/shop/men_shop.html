@@ -1,0 +1,359 @@
+{% extends 'shop/root.html' %}
+{% load static %}
+{% block title %}{{ product.title }}ATOM{% endblock %}
+{% block content %}
+
+<style>
+    /* small visual nicety for loading state */
+    #product-list-wrapper.loading { opacity: 0.6; pointer-events: none; }
+
+/* Make native checkboxes visible in the filter sidebar (override theme) */
+.sidebar_widget input[type="checkbox"],
+.sidebar_widget input[type="radio"] {
+  display: inline-block !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 8px 0 0 !important;
+  vertical-align: middle !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  -webkit-appearance: checkbox !important;
+  appearance: checkbox !important;
+  background: transparent !important;
+  border: 1px solid #ccc !important;
+  border-radius: 3px !important;
+  box-sizing: border-box !important;
+}
+
+/* If theme replaces checkboxes with a custom element (span), hide that custom element */
+.sidebar_widget label .fake-checkbox,
+.sidebar_widget label .custom-checkbox,
+.sidebar_widget label .styled-checkbox,
+.sidebar_widget label .checkbox-replacement {
+  display: none !important;
+}
+
+/* Make sure label text sits beside checkbox */
+.sidebar_widget label {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+}
+
+/* Better spacing for list items */
+.sidebar_widget ul {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.sidebar_widget ul li {
+  margin: 6px 0 !important;
+}
+
+/* If theme uses opacity or transforms on inputs, reset them */
+.sidebar_widget input[type="checkbox"]:not(:disabled) {
+  transform: none !important;
+  -webkit-transform: none !important;
+  opacity: 1 !important;
+}
+
+/* Make sure checkbox is on top (if some pseudo-element overlays it) */
+.sidebar_widget input[type="checkbox"] {
+  position: relative !important;
+  /* z-index: 999 !important; */
+}
+
+/* Small responsive tweak so filter labels wrap nicely */
+@media (max-width: 767px) {
+  .sidebar_widget label { font-size: 14px !important; }
+}
+</style>
+
+
+<div>
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Collection Banner-->
+    	<div class="collection-header">
+			<div class="collection-hero">
+        		<div class="collection-hero__image"><img class="blur-up lazyload" data-src="{% static 'images/cat-men.jpg' %}" src="{% static 'images/cat-women2.jpg' %}" alt="Women" title="Women" /></div>
+        		<div class="collection-hero__title-wrapper"><h1 class="collection-hero__title page-width">Men Shop</h1></div>
+      		</div>
+		</div>
+        <!--End Collection Banner-->
+        <br><br>
+        <div class="container">
+        	<div class="row">
+            	<!--Sidebar-->
+            	<div class="col-12 col-sm-12 col-md-3 col-lg-3 sidebar filterbar">
+                	<div class="closeFilter d-block d-md-none d-lg-none"><i class="icon icon anm anm-times-l"></i></div>
+                	<div class="sidebar_tags">
+
+
+                        <form id="filter-form" method="get">
+                        <!-- Collections -->
+                        <div class="sidebar_widget categories filter-widget">
+                            <div class="widget-title"><h2>Categories</h2></div>
+                            <ul style="list-style:none; padding-left:0; margin:0;">
+                            {% for col in collections %}
+                            <li>
+                                <label>
+                                <input type="checkbox" name="collection" value="{{ col }}" {% if col in selected_collections %}checked{% endif %}>
+                                {{ col|cut:"_"|capfirst }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="sidebar_widget filterBox filter-widget">
+                            <div class="widget-title"><h2>Price</h2></div>
+                            <ul>
+                            {% for pr_value, pr_label in price_ranges %}
+                            <li>
+                                <label>
+                                <input type="checkbox" name="price" value="{{ pr_value }}" {% if pr_value in selected_price_ranges %}checked{% endif %}>
+                                {{ pr_label }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Size -->
+                        <div class="sidebar_widget filterBox filter-widget size-swacthes">
+                            <div class="widget-title"><h2>Size</h2></div>
+                            <ul>
+                            {% for s in sizes %}
+                            <li>
+                                <label>
+                                <input type="checkbox" name="size" value="{{ s }}" {% if s in selected_sizes %}checked{% endif %}>
+                                {{ s }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Color -->
+                        <div class="sidebar_widget filterBox filter-widget">
+                            <div class="widget-title"><h2>Color</h2></div>
+                            <ul>
+                            {% for c in colors %}
+                            <li>
+                                <label>
+                                <input type="checkbox" name="color" value="{{ c }}" {% if c in selected_colors %}checked{% endif %}>
+                                {{ c }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Brands -->
+                        <div class="sidebar_widget filterBox filter-widget">
+                            <div class="widget-title"><h2>Brands</h2></div>
+                            <ul>
+                            {% for brand in brands %}
+                            <li>
+                                <label>
+                                <input type="checkbox" name="brand" value="{{ brand }}" {% if brand in selected_brands %}checked{% endif %}>
+                                {{ brand }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <button type="button" id="clear-filters" class="btn btn-sm btn-secondary">Clear All Filters</button>
+                        </div>
+
+                        </form>
+
+                        <!--Popular Products-->
+                        <div class="sidebar_widget">
+                                      <div class="widget-title"><h2>Popular Products</h2></div>
+                          <div class="widget-content">
+                                            <div class="list list-sidebar-products">
+                                              <div class="grid">
+                                                <div class="grid__item">
+                                                  <div class="mini-list-item">
+                                                    <div class="mini-view_image">
+                                                        <a class="grid-view-item__link" href="#">
+                                                            <img class="grid-view-item__image" src="{% static 'images/product-images/mini-product-img.jpg' %}" alt="" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="details"> <a class="grid-view-item__title" href="#">Cena Skirt</a>
+                                                      <div class="grid-view-item__meta"><span class="product-price__price"><span class="money">$173.60</span></span></div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="grid__item">
+                                                  <div class="mini-list-item">
+                                                    <div class="mini-view_image"> <a class="grid-view-item__link" href="#"><img class="grid-view-item__image" src="{% static 'images/product-images/mini-product-img1.jpg' %}" alt="" /></a> </div>
+                                                    <div class="details"> <a class="grid-view-item__title" href="#">Block Button Up</a>
+                                                      <div class="grid-view-item__meta"><span class="product-price__price"><span class="money">$378.00</span></span></div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="grid__item">
+                                                  <div class="mini-list-item">
+                                                    <div class="mini-view_image"> <a class="grid-view-item__link" href="#"><img class="grid-view-item__image" src="{% static 'images/product-images/mini-product-img2.jpg' %}" alt="" /></a> </div>
+                                                    <div class="details"> <a class="grid-view-item__title" href="#">Balda Button Pant</a>
+                                                      <div class="grid-view-item__meta"><span class="product-price__price"><span class="money">$278.60</span></span></div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="grid__item">
+                                                  <div class="mini-list-item">
+                                                    <div class="mini-view_image"> <a class="grid-view-item__link" href="#"><img class="grid-view-item__image" src="{% static 'images/product-images/mini-product-img3.jpg' %}" alt="" /></a> </div>
+                                                    <div class="details"> <a class="grid-view-item__title" href="#">Border Dress in Black/Silver</a>
+                                                      <div class="grid-view-item__meta"><span class="product-price__price"><span class="money">$228.00</span></span></div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </div>
+                        </div>
+                        <!--End Popular Products-->
+
+                    </div>
+                </div>
+                <!--End Sidebar-->
+                <!--Main Content-->
+                <div class="col-12 col-sm-12 col-md-9 col-lg-9 main-col">
+                	
+                	<div class="productList">
+                    	<!--Toolbar-->
+                        <button type="button" class="btn btn-filter d-block d-md-none d-lg-none"> Product Filters</button>
+                    	<div class="toolbar">
+                        	<div class="filters-toolbar-wrapper">
+                              
+                        </div>
+                        <!--End Toolbar-->
+                        <div class="grid-products grid--view-items">
+                            <div class="row">
+
+                                <!-- Product List Wrapper -->
+                                <div id="product-list-wrapper">
+                                <div class="row product-grid">
+                                    {% if products %}
+                                    {% for product in products %}
+                                        <div class="col-6 col-sm-6 col-md-4 col-lg-4 item">
+                                        <!-- Product Image -->
+                                        <div class="product-image">
+                                            <a href="{% url 'product_info' product.product_id %}">
+                                            <img class="primary blur-up lazyload" data-src="{{ product.image_url }}" src="{{ product.image_url }}" alt="{{ product.title }}" title="{{ product.title }}">
+                                            <img class="hover blur-up lazyload" data-src="{{ product.hover_url }}" src="{{ product.hover_url }}" alt="{{ product.title }}" title="{{ product.title }}">
+                                            {% if product.discount %}
+                                            <div class="product-labels rectangular">
+                                                <span class="lbl on-sale">-{{ product.discount }}%</span>
+                                                <span class="lbl pr-label1">new</span>
+                                            </div>
+                                            {% endif %}
+                                            </a>
+                                          
+                                            <form class="variants add" action="{% url 'product_info' product.product_id %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="quantity" value="1">
+                                                <button class="btn btn-addto-cart" type="submit">Add To Cart</button>
+                                            </form>
+
+                                            <div class="button-set">
+                                            
+                                                <div class="wishlist-btn">
+                                                {% if product.product_id %}
+                                                <form action="{% url 'add_to_wishlist' 'product' product.product_id %}"
+                                                        method="post" style="display:inline-block;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="title" value="{{ product.obj.name }}">
+                                                    <input type="hidden" name="price" value="{{ product.price_str }}">
+                                                    <input type="hidden" name="image_url" value="{{ product.image_url }}">
+                                                    <input type="hidden" name="hover_url" value="{{ product.hover_url }}">
+                                                    <!-- submit via anchor so styling remains same -->
+                                                    <a href="javascript:void(0);" onclick="this.closest('form').submit(); return false;"
+                                                    title="Add to Wishlist" class="wishlist add-to-wishlist">
+                                                    <i class="icon anm anm-heart-l"></i>
+                                                    </a>
+                                                </form>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Product Details -->
+                                        <div class="product-details text-center">
+                                            <div class="product-name"><a href="{% url 'product_info' product.product_id %}">{{ product.title }}</a></div>
+                                            <div class="product-price">
+                                            {% if product.old_price %}<span class="old-price">${{ product.old_price }}</span>{% endif %}
+                                            <span class="price">${{ product.price }}</span>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <div class="col-12">No products found.</div>
+                                    {% endif %}
+                                </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="clear">
+                </div>
+                <!--End Main Content-->
+            </div>
+        </div>
+        
+    </div>
+    <!--End Body Content-->
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('filter-form');
+  const clearBtn = document.getElementById('clear-filters');
+  if (!form) return;
+
+  // Auto-submit form on checkbox change
+  form.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      form.submit();
+    });
+  });
+
+  // Clear all filters button
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      // Uncheck all checkboxes
+      form.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      // Submit form (page reload)
+      form.submit();
+    });
+  }
+});
+</script>
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+

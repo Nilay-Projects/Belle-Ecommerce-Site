@@ -1,0 +1,85 @@
+{% extends 'shop/root.html' %}
+{% load static %}
+{% block title %}{{ product.title }}ATOM{% endblock %}
+{% block content %}
+    
+    <!--Body Content-->
+    <div id="page-content">
+        <!--Page Title-->
+        <div class="page section-header text-center">
+            <div class="page-title">
+                <div class="wrapper"><h1 class="page-width">Collection Page</h1></div>
+            </div>
+        </div>
+        <!--End Page Title-->
+        
+        
+        <div class="container collection-box">
+            <div class="row">
+                <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                <div class="colletion-item">
+                    <a href="{% url 'bags' %}">
+                    <img class="blur-up lazyload" data-src="{% static 'images/collection/collection-page1.jpg' %}"
+                        src="{% static 'images/collection/collection-page1.jpg' %}" alt="Bags" title="Bags">
+                    <span class="title"><span>Bags</span></span>
+                    </a>
+                </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                <div class="colletion-item">
+                    <a href="{% url 'women_shop' %}">
+                    <img class="blur-up lazyload" data-src="{% static 'images/collection/collection-page2.jpg' %}"
+                        src="{% static 'images/collection/collection-page2.jpg' %}" alt="Women" title="Women">
+                    <span class="title"><span>Women</span></span>
+                    </a>
+                </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                <div class="colletion-item">
+                    <a href="{% url 'shoes' %}">
+                    <img class="blur-up lazyload" data-src="{% static 'images/collection/collection-page3.jpg' %}"
+                        src="{% static 'images/collection/collection-page3.jpg' %}" alt="Shoes" title="Shoes">
+                    <span class="title"><span>Shoes</span></span>
+                    </a>
+                </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                <div class="colletion-item">
+                    <a href="{% url 'men_shop' %}">
+                    <img class="blur-up lazyload" data-src="{% static 'images/collection/collection-page4.jpg' %}"
+                        src="{% static 'images/collection/collection-page4.jpg' %}" alt="Men" title="Men">
+                    <span class="title"><span>Men</span></span>
+                    </a>
+                </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                <div class="colletion-item">
+                    <a href="{% url 'jewellery' %}">
+                    <img class="blur-up lazyload" data-src="{% static 'images/collection/collection-page6.jpg' %}"
+                        src="{% static 'images/collection/collection-page6.jpg' %}" alt="Jewellery" title="Jewellery">
+                    <span class="title"><span>Jewellery</span></span>
+                    </a>
+                </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                <div class="colletion-item">
+                    <a href="{% url 'cosmetic' %}">
+                    <img class="blur-up lazyload" data-src="{% static 'images/collection/collection-page7.jpg' %}"
+                        src="{% static 'images/collection/collection-page7.jpg' %}" alt="Cosmetics" title="Cosmetics">
+                    <span class="title"><span>Cosmetics</span></span>
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--End Body Content-->
+
+{% endblock %}
+

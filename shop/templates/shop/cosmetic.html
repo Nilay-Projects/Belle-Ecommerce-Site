@@ -1,0 +1,346 @@
+{% extends 'shop/root.html' %}
+{% load static %}
+{% block title %}{{ product.title }}ATOM{% endblock %}
+{% block content %}
+
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Home slider-->
+    	<div class="slideshow slideshow-wrapper pb-section">
+        	<div class="home-slideshow">
+            	<div class="slide slideshow--medium">
+                	<div class="blur-up lazyload">
+                        <img class="blur-up lazyload" data-src="{% static 'images/slideshow-banners/home5-banner1.jpg' %}" src="{% static 'images/slideshow-banners/home5-banner1.jpg' %}" alt="The One" title="The One" />
+                        <div class="slideshow__text-wrap slideshow__overlay classic middle">
+                            <div class="slideshow__text-content classic left">
+                            	<div class="container">
+                                    <div class="wrap-caption left">
+                                        <h2 class="h1 mega-title slideshow__title">The One</h2>
+                                        <span class="mega-subtitle slideshow__subtitle">Complete your daring new look<br>with the one</span>
+                                        <span class="btn">Shop now</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide slideshow--medium">
+                	<div class="blur-up lazyload">
+                        <img class="blur-up lazyload" data-src="{% static 'images/slideshow-banners/home5-banner2.jpg' %}" src="{% static 'images/slideshow-banners/home5-banner2.jpg' %}" alt="Editors Picks" title="Editors Picks" />
+                        <div class="slideshow__text-wrap slideshow__overlay classic top">
+                            <div class="slideshow__text-content classic top">
+                            	<div class="container">
+                                    <div class="wrap-caption center">
+                                        <h2 class="h1 mega-title slideshow__title">Editors Picks</h2>
+                                        <span class="mega-subtitle slideshow__subtitle">The Editors Essential Mascara Guide</span>
+                                        <span class="btn">Shop now</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Home slider-->
+        
+        <!--Collection Tab slider-->
+        <div class="tab-slider-product section">
+        	<div class="container">
+            	<div class="row">
+                	<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="section-header text-center">
+                            <h2 class="h2">We've got the best ones for you</h2>
+                            <p>Free delivery on the oder above $200</p>
+                        </div>
+                        <div class="tabs-listing">
+                            <ul class="tabs clearfix">
+                                <li class="active" rel="tab1">We Recommend</li>
+                                <li rel="tab2">What's new</li>
+                                <li rel="tab3">Best Offers</li>
+                            </ul>
+                            <div class="tab_container">
+
+                                <div id="tab1" class="tab_content grid-products active">
+                                    <div class="productSlider">
+                                            {% if we_recommed %}
+                                                {% for item in we_recommed %}
+                                                    {% with c=item.obj %}
+                                                    <div class="col-12 item">
+                                                        <div class="product-image">
+                                                            <a href="{{ item.detail_url }}"></a>
+                                                                <img class="primary blur-up lazyload" 
+                                                                    data-src="{{ item.image_url }}" 
+                                                                    src="{{ item.image_url }}" 
+                                                                    alt="{{ c.name }}" title="{{ c.name }}" />
+                                                                <img class="hover blur-up lazyload" 
+                                                                    data-src="{{ item.hover_url }}" 
+                                                                    src="{{ item.hover_url }}" 
+                                                                    alt="{{ c.name }}" title="{{ c.name }}" />
+                                                            </a>
+                                                            <form class="variants add" action="{{ item.detail_url }}" method="get">
+                                                                <button class="btn btn-addto-cart" type="submit">View Details</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="product-details text-center">
+                                                            <div class="product-name">
+                                                                <a href="{{ item.detail_url }}">{{ c.name }}</a>
+                                                            </div>
+                                                            <div class="product-price">
+                                                                <span class="price">${{ item.price_str }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endwith %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <p>No products found in We Recommend.</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                <div id="tab2" class="tab_content grid-products active">
+                                        <div class="productSlider">
+                                            {% if we_recommed %}
+                                                {% for item in whats_new %}
+                                                    {% with c=item.obj %}
+                                                    <div class="col-12 item">
+                                                        <div class="product-image">
+                                                                <a href="{% url 'cosmetic_info' c.cosmetic_product_id %}"></a>
+                                                                <img class="primary blur-up lazyload" 
+                                                                    data-src="{{ item.image_url }}" 
+                                                                    src="{{ item.image_url }}" 
+                                                                    alt="{{ c.name }}" title="{{ c.name }}" />
+                                                                <img class="hover blur-up lazyload" 
+                                                                    data-src="{{ item.hover_url }}" 
+                                                                    src="{{ item.hover_url }}" 
+                                                                    alt="{{ c.name }}" title="{{ c.name }}" />
+                                                            </a>
+                                                            <form class="variants add" action="{{ item.detail_url }}" method="get">
+                                                                <button class="btn btn-addto-cart" type="submit">View Details</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="product-details text-center">
+                                                            <div class="product-name">
+                                                                <a href="{{ item.detail_url }}">{{ c.name }}</a>
+                                                            </div>
+                                                            <div class="product-price">
+                                                                <span class="price">${{ item.price_str }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endwith %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <p>No products found in We Recommend.</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                <div id="tab3" class="tab_content grid-products active">
+                                        <div class="productSlider">
+                                            {% if best_offer %}
+                                                {% for item in best_offer %}
+                                                    {% with c=item.obj %}
+                                                    <div class="col-12 item">
+                                                        <div class="product-image">
+                                                                <a href="{% url 'cosmetic_info' c.cosmetic_product_id %}"></a>
+                                                                <img class="primary blur-up lazyload" 
+                                                                    data-src="{{ item.image_url }}" 
+                                                                    src="{{ item.image_url }}" 
+                                                                    alt="{{ c.name }}" title="{{ c.name }}" />
+                                                                <img class="hover blur-up lazyload" 
+                                                                    data-src="{{ item.hover_url }}" 
+                                                                    src="{{ item.hover_url }}" 
+                                                                    alt="{{ c.name }}" title="{{ c.name }}" />
+                                                            </a>
+                                                            <form class="variants add" action="{{ item.detail_url }}" method="get">
+                                                                <button class="btn btn-addto-cart" type="submit">View Details</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="product-details text-center">
+                                                            <div class="product-name">
+                                                                <a href="{{ item.detail_url }}">{{ c.name }}</a>
+                                                            </div>
+                                                            <div class="product-price">
+                                                                <span class="price">${{ item.price_str }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endwith %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <p>No products found in We Recommend.</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+            	</div>    
+            </div>
+        </div>
+        <!--Collection Tab slider-->
+        
+        <!--Featured Column-->
+        <div class="section featured-column">
+        	<div class="container">
+            	<div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="section-header text-center">
+                            <h2 class="h2">Best Beauty Picks For You!</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                	<!--Featured Item-->
+                	 <div class="col-12 col-sm-6 col-md-4 col-lg-4 text-center">
+                     	<p>
+                           <a href="#">   
+                              <img class="blur-up lazyload" data-src="{% static 'images/collection/cosmetic1.jpg' %}" src="{% static 'images/collection/cosmetic1.jpg' %}" alt="feature-row__image">
+                           </a> 
+                        </p>
+                        <h3 class="h4"><a href="#">Color Cosmetics</a></h3>
+                        <div class="rte-setting"><p><strong>There is nothing more you can ask for. </strong>Gives your skin a natural glow with matte finish</p></div>
+                        <a href="#" class="btn no-border">Shop Now</a>
+                     </div>
+                     <!--End Featured Item-->
+                     <!--Featured Item-->
+                     <div class="col-12 col-sm-6 col-md-4 col-lg-4 text-center">
+                     	<p>
+                           <a href="#">   
+                              <img class="blur-up lazyload" data-src="{% static 'images/collection/cosmetic2.jpg' %}" src="{% static 'images/collection/cosmetic2.jpg' %}" alt="feature-row__image">
+                           </a> 
+                        </p>
+                        <h3 class="h4"><a href="#">Lip Color</a></h3>
+                        <div class="rte-setting"><p>Enjoy the stay.  Love the Shine Logn Lasting Ultramatte perfact lip color</p></div>
+                        <a href="#" class="btn no-border">Shop New Arrivals</a>
+                     </div>
+                     <!--End Featured Item-->
+                     <!--Featured Item-->
+                     <div class="col-12 col-sm-6 col-md-4 col-lg-4 text-center">
+                     	<p>
+                           <a href="#">   
+                              <img class="blur-up lazyload" data-src="{% static 'images/collection/cosmetic3.jpg' %}" src="{% static 'images/collection/cosmetic3.jpg' %}" alt="feature-row__image">
+                           </a> 
+                        </p>
+                        <h3 class="h4"><a href="#">Eyeliner</a></h3>
+                        <div class="rte-setting"><p>Wing it with perfection. Dramatic wing perfection. Fine tip liquid eyeliner stay long lasting</p></div>
+                        <a href="#" class="btn no-border">Buy Now</a>
+                     </div>
+                     <!--End Featured Item-->
+                </div>
+            </div>
+        </div>
+        <!--End Featured Column-->
+        
+        <!--Parallax Section-->
+        <div class="section">
+            <div class="hero hero--large hero__overlay bg-size">
+            	<img class="bg-img blur-up" src="{% static 'images/parallax-banners/cosmetic-parallax.jpg' %}" alt="" />
+                <div class="hero__inner">
+                    <div class="container">
+                        <div class="wrap-text center text-large font-bold">
+                            <h2 class="h2 mega-title">Super Soft</h2>
+                            <div class="rte-setting mega-subtitle">You wouldn't believe how amazing<br> this maplly lipstick are!</div>
+                            <a href="#" class="btn">Get Your set Today</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Parallax Section-->
+        
+        <!--Product Single-->
+        <div class="section product-single product-template__container">
+        	<div class="container">
+            	<div class="product-single-wrap">
+                    <div class="row display-table">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 display-table-cell">
+                            <img src="{% static 'images/cosmetic-product/single-product.jpg' %}" alt="" class="product-featured-img"/>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 display-table-cell">
+                            <div class="product-single__meta">
+                            	<h2 class="grid_item-title h2">Steal The Deal</h2>
+                                <h2 class="product-single__title h4">
+                                	<a href="#">Makeup &amp; Cosmetics Travel Bag</a>
+                                 </h2>
+                                 <p class="product-single__price">
+                                     <span class="money">$15.79</span>
+                                     <span class="product-price__price product-price__sale product-price__sale--single">
+                                        <span class="money">$9.21</span>
+                                     </span>
+                                 </p>
+                                 <div class="product-single__description rte">The perfect makeup bag for every personality! These fun makeup bags will hold all your cosmetic goodies! It can hold all your essentials including a full sized makeup palette &amp; brushes! Highlights:Zipper Closure</div>
+                                 <!-- Product Action -->
+                                <div class="product-action clearfix">
+                                    <div class="product-form__item--quantity">
+                                        <div class="wrapQtyBtn">
+                                            <div class="qtyField">
+                                                <a class="qtyBtn minus" href="javascript:void(0);"><i class="fa anm anm-minus-r" aria-hidden="true"></i></a>
+                                                <input type="text" id="Quantity" name="quantity" value="1" class="product-form__input qty">
+                                                <a class="qtyBtn plus" href="javascript:void(0);"><i class="fa anm anm-plus-r" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>                                
+                                    <div class="product-form__item--submit">
+                                        <button type="button" name="add" class="btn product-form__cart-submit">
+                                            <span>Add to cart</span>
+                                        </button>
+                                    </div>
+                                    <div class="display-table shareRow">
+                                        <div class="display-table-cell">
+                                            <div class="wishlist-btn">
+                                                <a class="wishlist add-to-wishlist" href="#" title="Add to Wishlist"><i class="icon anm anm-heart-l" aria-hidden="true"></i> <span>Add to Wishlist</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Product Action -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           	</div>
+        </div>
+        <!--End Product Single-->
+        
+        <!--Store Feature-->
+        <div class="store-feature section">
+        	<div class="container">
+            	<div class="row">
+                	<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    	<ul class="display-table store-info">
+                        	<li class="display-table-cell">
+                            	<i class="icon anm anm-truck-l"></i>
+                            	<h5>Free Shipping Worldwide</h5>
+                            	<span class="sub-text">
+                            		Diam augue augue in fusce voluptatem
+                            	</span>
+                            </li>
+                          	<li class="display-table-cell">
+                            	<i class="icon anm anm-money-bill-ar"></i>
+                                <h5>Money Back Guarantee</h5>
+                                <span class="sub-text">
+                                	Use this text to display your store information
+                                </span>
+                          	</li>
+                          	<li class="display-table-cell">
+                            	<i class="icon anm anm-comments-l"></i>
+                                <h5>24/7 Help Center</h5>
+                                <span class="sub-text">
+                                	Use this text to display your store information
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Store Feature-->
+        
+    </div>
+    <!--End Body Content-->
+    
+{% endblock %} 

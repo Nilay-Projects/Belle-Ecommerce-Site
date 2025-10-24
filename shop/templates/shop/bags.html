@@ -1,0 +1,329 @@
+{% extends 'shop/root.html' %}
+{% load static %}
+{% block title %}{{ product.title }}ATOM{% endblock %}
+{% block content %}
+
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Image Banners-->
+    	<div class="section imgBanners">
+        	<div class="imgBnrOuter">
+            	<div class="container">
+                	<div class="row">
+                    	<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        	<div class="inner">
+                            	<a href="#">	
+                               		<img data-src="{% static 'images/slideshow-banners/home14-bags-bnr1.jpg' %}"  
+                                    src="{% static 'images/slideshow-banners/home14-bags-bnr1.jpg' %}"  alt="" title="" class="blur-up lazyload" />
+                                </a>
+                             </div>
+                             <div class="custom-text text-center">
+                                <h4 class="h3"><a href="#"> Discover the latest bag collections and a constantly growing assortment at BELLE</a></h4>
+                                <div class="rte-setting">
+                                <p>You know best what makes your perfect bag, so BELLE offers a wide selection for every taste! Choose your favourite <a href="https://www.wardow.com/en/leather-bags">leather bag</a> with matching purse from over 120 brands!</p>
+                                </div>
+                                <br>
+                                <a class="btn" href="#">Discover Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Image Banners-->
+        
+        <!--Featured Column-->
+        <div class="section featured-column">
+        	<div class="container">
+                <div class="row">
+                	<!--Featured Item-->
+                	 <div class="col-12 col-sm-6 col-md-4 col-lg-4 text-center">
+                     	<p>
+                           <a href="#">   
+                              <img data-src="{% static 'images/collection/home14-bags-sm-banner1.jpg' %}"  src="{% static 'images/collection/home14-bags-sm-banner1.jpg' %}"  alt="New in !" class="blur-up lazyload">
+                           </a> 
+                        </p>
+                        <h3 class="h4"><a href="#">New in !</a></h3>
+                        <div class="rte-setting"><p>Wallet and small leaather goods</p></div>
+                        <a href="#" class="btn no-border">Discover</a>
+                     </div>
+                     <!--End Featured Item-->
+                     <!--Featured Item-->
+                     <div class="col-12 col-sm-6 col-md-4 col-lg-4 text-center">
+                     	<p>
+                           <a href="#">   
+                              <img data-src="{% static 'images/collection/home14-bags-sm-banner2.jpg' %}"  src="{% static 'images/collection/home14-bags-sm-banner2.jpg' %}"  alt="My Valentine" class="blur-up lazyload">
+                           </a> 
+                        </p>
+                        <h3 class="h4"><a href="#">My Valentine</a></h3>
+                        <div class="rte-setting"><p>Gift ideas for him to personalize</p></div>
+                        <a href="#" class="btn no-border">Discover</a>
+                     </div>
+                     <!--End Featured Item-->
+                     <!--Featured Item-->
+                     <div class="col-12 col-sm-6 col-md-4 col-lg-4 text-center">
+                     	<p>
+                           <a href="#">   
+                              <img data-src="{% static 'images/collection/home14-bags-sm-banner3.jpg' %}"  src="{% static 'images/collection/home14-bags-sm-banner3.jpg' %}"  alt="Gift ideas" class="blur-up lazyload">
+                           </a> 
+                        </p>
+                        <h3 class="h4"><a href="#">Gift ideas</a></h3>
+                        <div class="rte-setting"><p>An exceptional gift</p></div>
+                        <a href="#" class="btn no-border">Discover</a>
+                     </div>
+                     <!--End Featured Item-->
+                </div>
+            </div>
+        </div>
+        <!--End Featured Column-->
+        
+        <!--Featured Column-->
+        <div class="section featured-column">
+        	<div class="container">
+                <div class="row">
+                	<!--Featured Item-->
+                	 <div class="col-12 col-sm-6 col-md-6 col-lg-6 text-center">
+                     	<p>
+                           <a href="#">   
+                              <img data-src="{% static 'images/collection/home14-bags-sm-banner4.jpg' %}"  src="{% static 'images/collection/home14-bags-sm-banner4.jpg' %}"  alt="ICONICS Bag" class="blur-up lazyload">
+                           </a> 
+                        </p>
+                        <h3 class="h4"><a href="#">ICONICS Bag</a></h3>
+                        <div class="rte-setting"><p>Timeless and modern the must-have Lancel</p></div>
+                        <a href="#" class="btn no-border">Discover More</a>
+                     </div>
+                     <!--End Featured Item-->
+                     <!--Featured Item-->
+                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 text-center">
+                     	<p>
+                           <a href="#">   
+                              <img data-src="{% static 'images/collection/home14-bags-sm-banner5.jpg' %}"  src="{% static 'images/collection/home14-bags-sm-banner5.jpg' %}"  alt="Pop around the world" class="blur-up lazyload">
+                           </a> 
+                        </p>
+                        <h3 class="h4"><a href="#">Pop around the world</a></h3>
+                        <div class="rte-setting"><p>Soft and lightweight material wallets for women</p></div>
+                        <a href="#" class="btn no-border">Discover More</a>
+                     </div>
+                     <!--End Featured Item-->
+                </div>
+            </div>
+        </div>
+        <!--End Featured Column-->
+        
+        <!--Parallax Section-->
+        <div class="section">
+            <div class="hero hero--small hero__overlay bg-size">
+            	<img class="bg-img blur-up" src="{% static 'images/parallax-banners/home14-bags-parallax.jpg' %}"  alt="" />
+                <div class="hero__inner">
+                    <div class="container">
+                        <div class="wrap-text  center text-small font-regular">       
+          					<h2 class="h2 mega-title">Sale, March 9th to April 19th 2019</h2>
+          					<div class="rte-setting mega-subtitle">-10% extra from two purchased products * - see conditions</div>
+          					<a href="#" class="btn">Shop Now</a>
+      					</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Parallax Section-->
+
+        <!--Bestselling Bags (Trending Collection)-->
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="section-header text-center">
+                            <h2 class="h2">Bestselling Bags</h2>
+                        </div>
+
+                        <div class="productSlider grid-products grid-products-hover-btn">
+                            {% for bag in trending %}
+                            <div class="col-12 item">
+                                <!-- start product image -->
+                                <div class="product-image">
+                                    <a href="{{ bag.detail_url }}" class="grid-view-item__link">
+                                        <!-- image -->
+                                        <img class="primary blur-up lazyload"
+                                            src="{{ bag.image_url }}"
+                                            data-src="{{ bag.image_url }}"
+                                            alt="{{ bag.obj.name }}"
+                                            title="{{ bag.obj.name }}">
+                                        <!-- End image -->
+                                        <!-- Hover image -->
+                                        <img class="hover blur-up lazyload"
+                                            src="{{ bag.hover_url }}"
+                                            data-src="{{ bag.hover_url }}"
+                                            alt="{{ bag.obj.name }}"
+                                            title="{{ bag.obj.name }}">
+                                        <!-- End hover image -->
+                                    </a>
+
+                                    <!-- Start product button -->
+                                    <form class="variants add" action="{{ bag.detail_url }}" method="post">
+                                        <button class="btn btn-addto-cart" type="button" tabindex="0">
+                                            Add To Cart
+                                        </button>
+                                    </form>
+
+                                    
+                                    <form class="variants add" action="{{ bag.detail_url }}" method="get">
+                                        <button class="btn btn-addto-cart" type="submit">View Details</button>
+                                    </form>
+
+                                    <div class="button-set">
+                                        
+                                        <div class="wishlist-btn">
+                                            {% if bag.obj.bag_product_id  %}
+                                                <form action="{% url 'add_to_wishlist' 'bags' bag.obj.bag_product_id %}"
+                                                    method="post" style="display:inline-block;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="title" value="{{ bag.obj.name }}">
+                                                    <input type="hidden" name="price" value="{{ bag.price_str }}">
+                                                    <input type="hidden" name="image_url" value="{{ bag.image_url }}">
+                                                    <input type="hidden" name="hover_url" value="{{ bag.hover_url }}">
+                                                    <!-- submit via anchor so styling remains same -->
+                                                    <a href="javascript:void(0);" onclick="this.closest('form').submit(); return false;"
+                                                    title="Add to Wishlist" class="wishlist add-to-wishlist">
+                                                    <i class="icon anm anm-heart-l"></i>
+                                                    </a>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                     
+                                    </div>
+                                    <!-- end product button -->
+                                </div>
+                                <!-- end product image -->
+
+                                <!--start product details -->
+                                <div class="product-details text-center">
+                                    <div class="product-name">
+                                        <a href="{{ bag.detail_url }}">{{ bag.obj.name }}</a>
+                                    </div>
+                                    <div class="product-price">
+                                        <span class="price">${{ bag.price_str }}</span>
+                                    </div>
+                                </div>
+                                <!-- End product details -->
+                            </div>
+                            {% empty %}
+                            <p class="text-center w-100">No trending bags available right now.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Bestselling Bags-->
+        
+        <!--Bestselling Bags (Trending Collection)-->
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                     
+
+                        <div class="productSlider grid-products grid-products-hover-btn">
+                            {% for bag in sale %}
+                            <div class="col-12 item">
+                                <!-- start product image -->
+                                <div class="product-image">
+                                    <a href="{{ bag.detail_url }}" class="grid-view-item__link">
+                                        <!-- image -->
+                                        <img class="primary blur-up lazyload"
+                                            src="{{ bag.image_url }}"
+                                            data-src="{{ bag.image_url }}"
+                                            alt="{{ bag.obj.name }}"
+                                            title="{{ bag.obj.name }}">
+                                        <!-- End image -->
+                                        <!-- Hover image -->
+                                        <img class="hover blur-up lazyload"
+                                            src="{{ bag.hover_url }}"
+                                            data-src="{{ bag.hover_url }}"
+                                            alt="{{ bag.obj.name }}"
+                                            title="{{ bag.obj.name }}">
+                                        <!-- End hover image -->
+                                    </a>
+
+                                    <!-- Start product button -->
+                                    <form class="variants add" action="#" method="post">
+                                        <button class="btn btn-addto-cart" type="button" tabindex="0">
+                                            Add To Cart
+                                        </button>
+                                    </form>
+
+                                    
+                                    <form class="variants add" action="{{ bag.detail_url }}" method="get">
+                                        <button class="btn btn-addto-cart" type="submit">View Details</button>
+                                    </form>
+
+                                    
+
+                                    <div class="button-set">
+                                        <a href="javascript:void(0)" title="Quick View"
+                                        class="quick-view-popup quick-view"
+                                        data-toggle="modal" data-target="#content_quickview">
+                                            <i class="icon anm anm-search-plus-r"></i>
+                                        </a>
+
+                                        <div class="wishlist-btn">
+                                            {% if bag.obj.bag_product_id  %}
+                                                <form action="{% url 'add_to_wishlist' 'bags' bag.obj.bag_product_id %}"
+                                                    method="post" style="display:inline-block;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="title" value="{{ bag.obj.name }}">
+                                                    <input type="hidden" name="price" value="{{ bag.price_str }}">
+                                                    <input type="hidden" name="image_url" value="{{ bag.image_url }}">
+                                                    <input type="hidden" name="hover_url" value="{{ bag.hover_url }}">
+                                                    <!-- submit via anchor so styling remains same -->
+                                                    <a href="javascript:void(0);" onclick="this.closest('form').submit(); return false;"
+                                                    title="Add to Wishlist" class="wishlist add-to-wishlist">
+                                                    <i class="icon anm anm-heart-l"></i>
+                                                    </a>
+                                                </form>
+                                            {% endif %}
+                                         </div>
+                                       
+                                    </div>
+                                    <!-- end product button -->
+                                </div>
+                                <!-- end product image -->
+
+                                <!--start product details -->
+                                <div class="product-details text-center">
+                                    <div class="product-name">
+                                        <a href="{{ bag.detail_url }}">{{ bag.obj.name }}</a>
+                                    </div>
+                                    <div class="product-price">
+                                        <span class="price">${{ bag.price_str }}</span>
+                                    </div>
+                                </div>
+                                <!-- End product details -->
+                            </div>
+                            {% empty %}
+                            <p class="text-center w-100">No trending bags available right now.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Bestselling Bags-->
+
+        <div class="section video-section">
+        	<div class="container">
+            	<div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="video-wrapper">
+                            <iframe src="http://player.vimeo.com/video/187978982?byline=0&amp;portrait=0&amp;badge=0" allowfullscreen="" width="850" height="480"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <!--End Body Content-->
+
+{% endblock %} 
+

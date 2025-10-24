@@ -1,0 +1,441 @@
+{% extends 'shop/root.html' %}
+{% load static %}
+{% block title %}{{ product.title }}ATOM{% endblock %}
+{% block content %}
+{% load dict_extras %}
+
+{# Optional: small CSS so selected swatch is visually clear #}
+<style>
+  .swatch-element { display:inline-block; margin-right:6px; }
+  .swatchLbl { display:inline-block; padding:8px 12px; border:1px solid #ddd; border-radius:6px; cursor:pointer; }
+  .swatch-element.selected .swatchLbl { border-color:#111; font-weight:600; box-shadow:0 1px 4px rgba(0,0,0,0.08); }
+</style>
+
+        <!--Body Content-->
+        <div id="page-content">
+            <!--MainContent-->
+            <div id="MainContent" class="main-content" role="main">
+                <!--Breadcrumb-->
+                
+                <div class="bredcrumbWrap" style="margin-top: 10px;">
+                    <div class="container breadcrumbs">
+                        <a href="{% url 'index' %}" title="Back to the home page">Home</a>
+                        <span aria-hidden="true">›</span>
+                        <span>{{ product.title }}</span>
+                    </div>
+                </div>
+                <!--End Breadcrumb-->
+                
+                <div id="ProductSection-product-template" class="product-template__container prstyle1 container">
+                
+                    <div class="product-single">
+                        <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="product-details-img">
+                            <div class="product-thumb">
+                                <div id="gallery" class="product-dec-slider-2 product-tab-left">
+                                {# Thumbnails / gallery - use gallery_images prepared in view #}
+                                {% for img in gallery_images %}
+                                    <a data-image="{{ img }}" data-zoom-image="{{ img }}">
+                                    <img class="blur-up lazyload" src="{{ img }}" alt="{{ product.title }}">
+                                    </a>
+                                {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="zoompro-wrap product-zoom-right pl-20">
+                                <div class="zoompro-span">
+                                <img class="zoompro blur-up lazyload"
+                                    data-zoom-image="{{ image_url }}"
+                                    alt="{{ product.title }}"
+                                    src="{{ image_url }}" />
+                                </div>
+
+                                <div class="product-labels">
+                                {% comment %} you can add conditional labels here {% endcomment %}
+                                {% if product.available %}
+                                    <span class="lbl in-stock">In Stock</span>
+                                {% else %}
+                                    <span class="lbl out-stock">Out of stock</span>
+                                {% endif %}
+                                </div>
+
+                              
+                            </div>
+
+                            <div class="lightboximages">
+                                {# keep anchors for lightbox compatibility; data-size can be adjusted if known #}
+                                {% for img in gallery_images %}
+                                <a href="{{ img }}" data-size="1200x1600"></a>
+                                {% endfor %}
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="product-single__meta">
+                            <h1 class="product-single__title">{{ product.title }}</h1>
+
+
+                            <p class="product-single__price">
+                            {% if product.price %}
+                                <span class="product-price__price">
+                                <span class="money" id="product-price">${{ sizes_with_prices.0.price_str }}</span>
+                                </span>
+                            {% endif %}
+                            </p>
+
+
+                            <div class="orderMsg" data-user="23" data-time="24">
+                                <img src="{% static 'images/order-icon.jpg' %}" alt="" /> <strong class="items">5</strong> sold in last <strong class="time">26</strong> hours
+                            </div>
+                            </div>
+
+                            <div class="product-single__description rte">
+                            {# Short description (use first 2–3 lines of product.description if long) #}
+                            {% if product.description %}
+                                <p>{{ product.description }}</p>
+                            {% else %}
+                                <p>No description available.</p>
+                            {% endif %}
+                            </div>
+
+                            <div id="quantity_message">Hurry! Only <span class="items">4</span> left in stock.</div>
+
+                            <form method="post" action="#" id="product_form_{{ product.product_id }}" class="product-form" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {# Colors swatch (radio inputs). If no colors available, hide this block #}
+                            {% if colors_list %}
+                                <div class="swatch clearfix swatch-0 option1" data-option-index="0">
+                                <div class="product-form__item">
+                                    <label class="header">Color: <span class="slVariant">{{ colors_list.0 }}</span></label>
+                                    {% for c in colors_list %}
+                                    {# create sanitized id for label association #}
+                                    {% with id="swatch-0-"|add:forloop.counter|stringformat:"s" %}
+                                        <div data-value="{{ c }}" class="swatch-element color available">
+                                        <input class="swatchInput" id="{{ id }}" type="radio" name="option-0" value="{{ c }}" {% if forloop.first %}checked{% endif %}>
+                                        <label class="swatchLbl color small" for="{{ id }}" style="background-color:{{ c|lower }};" title="{{ c }}"></label>
+                                        </div>
+                                    {% endwith %}
+                                    {% endfor %}
+                                </div>
+                                </div>
+                            {% endif %}
+
+
+
+                            {# Sizes swatch (radio inputs) - kept your markup/structure #}
+                            {% if sizes_with_prices %}
+                            <div class="swatch clearfix swatch-1 option2" data-option-index="1">
+                                <div class="product-form__item">
+                                <label class="header">Size: <span class="slVariant">{{ sizes_with_prices.0.size }}</span></label>
+
+                                {% for sp in sizes_with_prices %}
+                                    <div data-value="{{ sp.size }}" class="swatch-element {{ sp.size|lower }} available">
+                                    <input
+                                        class="swatchInput"
+                                        id="swatch-1-{{ forloop.counter }}"
+                                        type="radio"
+                                        name="option-1"
+                                        value="{{ sp.size }}"
+                                        data-price="{{ sp.price_str }}"
+                                        {% if forloop.first %}checked{% endif %}
+                                    >
+                                    <label class="swatchLbl medium rectangle" for="swatch-1-{{ forloop.counter }}" title="{{ sp.size }}">{{ sp.size }}</label>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+
+                            <!-- Product Action -->
+                            <div class="product-action clearfix">
+                                <div class="product-form__item--submit">
+
+                                    <div style="display: none;">
+                                        <form method="post" action="{% url 'add_to_cart' 'product' product.product_id %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="quantity" value="1">
+                                            <div class="product-form__item--submit">
+                                                <button type="submit" class="btn custom-cart-button">
+                                                    <span>Add to cart</span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <form method="post" action="{% url 'add_to_cart' 'product' product.product_id %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="quantity" value="1">
+                                        <div class="product-form__item--submit">
+                                            <button type="submit" class="btn custom-cart-button">
+                                                <span>Add to cart</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                            <!-- End Product Action -->
+                            </form>
+
+                            <div class="display-table shareRow">
+
+                            <div class="display-table-cell text-right">
+                                <div class="social-sharing">
+                                <a target="_blank" href="#" class="btn btn--small btn--secondary btn--share share-facebook" title="Share on Facebook">
+                                    <i class="fa fa-facebook-square" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">Share</span>
+                                </a>
+                                <a target="_blank" href="#" class="btn btn--small btn--secondary btn--share share-twitter" title="Tweet on Twitter">
+                                    <i class="fa fa-twitter" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">Tweet</span>
+                                </a>
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+                        </div>
+                    </div>
+
+
+                    <!--End-product-single-->
+                    <!--Product Fearure-->
+                    <div class="prFeatures">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3 feature">
+                                <img src="{% static 'images/credit-card.png' %}" alt="Safe Payment" title="Safe Payment" />
+                                <div class="details"><h3>Safe Payment</h3>Pay with the world's most payment methods.</div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3 feature">
+                                <img src="{% static 'images/shield.png' %}" alt="Confidence" title="Confidence" />
+                                <div class="details"><h3>Confidence</h3>Protection covers your purchase and personal data.</div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3 feature">
+                                <img src="{% static 'images/worldwide.png' %}" alt="Worldwide Delivery" title="Worldwide Delivery" />
+                                <div class="details"><h3>Worldwide Delivery</h3>FREE &amp; fast shipping to over 200+ countries &amp; regions.</div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3 feature">
+                                <img src="{% static 'images/phone-call.png' %}" alt="Hotline" title="Hotline" />
+                                <div class="details"><h3>Hotline</h3>Talk to help line for your question on 4141 456 789, 4125 666 888</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Details Open Section -->
+                    <div class="product-details-open">
+                        <!-- Product Description -->
+                        <div class="product-description rte">
+                            <h3>Product Details</h3>
+                            <p>Discover Belle’s premium quality apparel made with the finest materials. Comfortable, stylish, and designed to last.</p>
+                            <ul>
+                                <li>High-quality fabrics for lasting comfort</li>
+                                <li>Available in a variety of colors and sizes</li>
+                                <li>Eco-friendly and sustainable production</li>
+                                <li>Easy care – machine washable</li>
+                                <li>Exclusive Belle design</li>
+                            </ul>
+                            <p>Our products are crafted to combine style and functionality. Perfect for casual, work, or special occasions.</p>
+                        </div>
+
+                        <!-- Size Charts -->
+                        <div class="size-chart">
+                            
+                            <!-- Men's Size Chart -->
+                            <h3>Men's Body Sizing Chart</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>Size</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Chest</td><td>33"-36"</td><td>36"-39"</td><td>39"-41"</td><td>41"-43"</td><td>43"-46"</td><td>46"-49"</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Waist</td><td>27"-30"</td><td>30"-33"</td><td>33"-35"</td><td>36"-38"</td><td>38"-42"</td><td>42"-45"</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hip</td><td>33"-36"</td><td>36"-39"</td><td>39"-41"</td><td>41"-43"</td><td>43"-46"</td><td>46"-49"</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Women's Size Chart -->
+                            <h3>Women's Body Sizing Chart</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>Size</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Chest</td><td>31"-33"</td><td>33"-35"</td><td>35"-37"</td><td>37"-39"</td><td>39"-42"</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Waist</td><td>24"-26"</td><td>26"-28"</td><td>28"-30"</td><td>30"-32"</td><td>32"-35"</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hip</td><td>34"-36"</td><td>36"-38"</td><td>38"-40"</td><td>40"-42"</td><td>42"-44"</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Regular Inseam</td><td>30"</td><td>30½"</td><td>31"</td><td>31½"</td><td>32"</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Long (Tall) Inseam</td><td>31½"</td><td>32"</td><td>32½"</td><td>33"</td><td>33½"</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="text-center">
+                                <img src="{% static 'images/size.jpg' %}" alt="Size Chart" />
+                            </div>
+                        </div>
+
+                        <!-- Shipping & Returns -->
+                        <div class="shipping-returns">
+                            <h3>Shipping & Returns</h3>
+                            <h4>Shipping Policy</h4>
+                            <p>Belle offers free worldwide shipping for orders over $50. Delivery typically takes 5-12 business days depending on your location.</p>
+                            <h4>Returns Policy</h4>
+                            <p>If you're not satisfied with your purchase, returns are accepted within 30 days of delivery. Products must be unworn, unwashed, and in original packaging.</p>
+                        </div>
+                    </div>
+                    <!-- End Product Details Open Section -->
+
+                  
+                <!--#ProductSection-product-template-->
+            </div>
+            <!--MainContent-->
+        </div>
+    	<!--End Body Content-->
+    
+    <!--Scoll Top-->
+    <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
+    <!--End Scoll Top-->
+    
+    
+        
+<!-- Including Jquery -->
+<script src="{% static 'js/vendor/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
+<script src="{% static 'js/vendor/modernizr-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/vendor/wow.min.js' %}"></script>
+<!-- Including Javascript -->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/lazysizes.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<!-- Photoswipe Gallery -->
+<script src="{% static 'js/vendor/photoswipe.min.js' %}"></script>
+<script src="{% static 'js/vendor/photoswipe-ui-default.min.js' %}"></script>
+
+<script>
+$(function(){
+    var $pswp = $('.pswp')[0],
+        image = [],
+        getItems = function() {
+            var items = [];
+            $('.lightboximages a').each(function() {
+                var $href   = $(this).attr('href'),
+                    $size   = $(this).data('size').split('x'),
+                    item = {
+                        src : $href,
+                        w: $size[0],
+                        h: $size[1]
+                    }
+                    items.push(item);
+            });
+            return items;
+        }
+    var items = getItems();
+
+    $.each(items, function(index, value) {
+        image[index]     = new Image();
+        image[index].src = value['src'];
+    });
+    $('.prlightbox').on('click', function (event) {
+        event.preventDefault();
+        
+        var $index = $(".active-thumb").parent().attr('data-slick-index');
+        $index++;
+        $index = $index-1;
+
+        var options = {
+            index: $index,
+            bgOpacity: 0.9,
+            showHideOpacity: true
+        }
+        var lightBox = new PhotoSwipe($pswp, PhotoSwipeUI_Default, items, options);
+        lightBox.init();
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const radios = document.querySelectorAll('.swatchInput');
+  const priceNode = document.getElementById('product-price');
+  const slVariant = document.querySelector('.slVariant');
+  const selectedSizeInput = document.getElementById('selected-size');
+  const displayPriceInput = document.getElementById('display-price');
+
+  if (!radios.length) return;
+
+  function applySelection(size, price) {
+    // update displayed price and size text
+    if (priceNode) priceNode.textContent = '$' + price;
+    if (slVariant) slVariant.textContent = size;
+
+    // update hidden inputs for form submission
+    if (selectedSizeInput) selectedSizeInput.value = size;
+    if (displayPriceInput) displayPriceInput.value = price;
+
+    // update selected class on swatch-element containers
+    document.querySelectorAll('.swatch-element').forEach(function(el){
+      el.classList.toggle('selected', el.getAttribute('data-value') === size);
+    });
+  }
+
+  radios.forEach(function(radio){
+    radio.addEventListener('change', function(){
+      if (!radio.checked) return;
+      const size = radio.value;
+      const price = radio.getAttribute('data-price') || radio.dataset.price || '';
+      applySelection(size, price);
+    });
+
+    // Make label click also check the radio (most browsers do this automatically, but keep for robustness)
+    const lab = document.querySelector('label[for="' + radio.id + '"]');
+    if (lab) {
+      lab.addEventListener('click', function(){
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    }
+  });
+
+  // initialize UI from the initially-checked radio
+  const initiallyChecked = document.querySelector('.swatchInput:checked');
+  if (initiallyChecked) {
+    const initSize = initiallyChecked.value;
+    const initPrice = initiallyChecked.getAttribute('data-price') || initiallyChecked.dataset.price || '';
+    applySelection(initSize, initPrice);
+  } else {
+    // fallback: pick first radio
+    const first = radios[0];
+    if (first) {
+      first.checked = true;
+      first.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  }
+});
+
+        
+</script>
+
+
+{% endblock %}
+
+
+
+  
+

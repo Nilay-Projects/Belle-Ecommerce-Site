@@ -1,0 +1,107 @@
+{% extends 'shop/register_base.html' %}
+{% load static %}
+{% block title %}{{ product.title }}ATOM{% endblock %}
+{% block content %}
+
+<!--Body Content-->
+
+<div id="page-content">
+
+    <div class="page section-header text-center">
+        <div class="page-title">
+            <div class="wrapper"><h1 class="page-width">Create an Account</h1></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 main-col offset-md-3">
+                <div class="mb-4">
+                    <form method="post" class="contact-form">
+                        {% csrf_token %}
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert   {% if message.tags == 'error' %}
+                                                        alert-danger
+                                                    {% else %}
+                                                        alert-{{ message.tags }}
+                                                    {% endif %}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col-12">
+                                {{ form.first_name.label_tag }} 
+                                {{ form.first_name }}
+                                {% for error in form.first_name.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-12">
+                                {{ form.last_name.label_tag }} 
+                                {{ form.last_name }}
+                                {% for error in form.last_name.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-12">
+                                {{ form.email.label_tag }} 
+                                {{ form.email }}
+                                {% for error in form.email.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-12">
+                                {{ form.password.label_tag }} 
+                                {{ form.password }}
+                                {% for error in form.password.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-12">
+                                {{ form.address.label_tag }} 
+                                {{ form.address }}
+                                {% for error in form.address.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-12">
+                                {{ form.city.label_tag }} 
+                                {{ form.city }}
+                                {% for error in form.city.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-12">
+                                {{ form.phone.label_tag }} 
+                                {{ form.phone }}
+                                {% for error in form.phone.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <input type="submit" class="btn mb-3" value="Create">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
