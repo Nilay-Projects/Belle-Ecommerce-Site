@@ -64,18 +64,6 @@ Each category contains multiple products with **detailed pages**, images, and pr
 
 ---
 
-## Future Improvements
-- **User authentication and registration** for personalized shopping experience  
-- **Shopping cart and checkout system** with order history  
-- **Integration with payment gateways** like Stripe or PayPal  
-- **Product search and filtering** by category, price, or popularity  
-- **Customer reviews and ratings** for products  
-- **Deployment on cloud platforms** such as Heroku, AWS, or DigitalOcean  
-- **Enhanced UI and responsive design** for better mobile experience  
-- **Analytics dashboard** for admin to track sales and product trends  
-
----
-
 ## Technical Highlights
 - **Django MTV architecture** ensures clean separation of models, templates, and views  
 - **Static & media management** allows for easy deployment and scalability  
@@ -85,8 +73,8 @@ Each category contains multiple products with **detailed pages**, images, and pr
 ---
 
 ## Author
-**Your Name**  
-- GitHub: [YourGitHub](https://github.com/Nilay-Projects)  
+**Nilay Rana**  
+- GitHub: [Nilay Rana](https://github.com/Nilay-Projects)  
 - Email: nilayrana2@gmail.com 
 
 > Belle-Ecommerce-Site showcases **full-stack web development expertise** with Django, Python, HTML, CSS, and Bootstrap. It is a **production-ready e-commerce platform**, perfect for portfolios or professional demonstrations in web development or software engineering applications.
