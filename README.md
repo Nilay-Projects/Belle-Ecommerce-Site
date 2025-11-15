@@ -74,7 +74,7 @@ Each category contains multiple products with **detailed pages**, images, and pr
 
 ## Author
 **Nilay Rana**  
-- GitHub: [Nilay Rana](https://github.com/Nilay-Projects)  
+- GitHub: [Nilay Projects](https://github.com/Nilay-Projects)  
 - Email: nilayrana2@gmail.com 
 
 > Belle-Ecommerce-Site showcases **full-stack web development expertise** with Django, Python, HTML, CSS, and Bootstrap. It is a **production-ready e-commerce platform**, perfect for portfolios or professional demonstrations in web development or software engineering applications.
